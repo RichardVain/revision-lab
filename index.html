@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Year 12 Revision Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: single reading column (max 760px); home = subject blocks with topic rows; quiz = one focused card. */
+:root{
+  --bg:#eef2f6; --surface:#ffffff; --surface-2:#f6f8fb; --ink:#152132; --muted:#566273; --line:#d7dee7;
+  --focus:#2b59c3;
+  --phys:#5a3fc8; --phys-soft:#ece8fb;
+  --maths:#0b7a5c; --maths-soft:#e1f3ec;
+  --cs:#b4500d; --cs-soft:#fbeadc;
+  --elec:#b5214f; --elec-soft:#fae3ea;
+  --good:#17784a; --good-soft:#e0f2e8; --bad:#b3322b; --bad-soft:#f9e3e1; --warn:#9a6510; --warn-soft:#f8eed9;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --radius:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#171e28; --surface-2:#1d2531; --ink:#e6ebf1; --muted:#9ba7b6; --line:#2b3544; --focus:#8fb0ff;
+  --phys:#a996ff; --phys-soft:#262144; --maths:#4fd0a6; --maths-soft:#15302a; --cs:#f29a5a; --cs-soft:#35251a; --elec:#ff7fa3; --elec-soft:#3a1d29;
+  --good:#5fd39a; --good-soft:#163024; --bad:#ff8b80; --bad-soft:#3a1f1d; --warn:#f0c068; --warn-soft:#352b17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#171e28; --surface-2:#1d2531; --ink:#e6ebf1; --muted:#9ba7b6; --line:#2b3544; --focus:#8fb0ff;
+  --phys:#a996ff; --phys-soft:#262144; --maths:#4fd0a6; --maths-soft:#15302a; --cs:#f29a5a; --cs-soft:#35251a; --elec:#ff7fa3; --elec-soft:#3a1d29;
+  --good:#5fd39a; --good-soft:#163024; --bad:#ff8b80; --bad-soft:#3a1f1d; --warn:#f0c068; --warn-soft:#352b17; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:20px 64px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.45rem;font-weight:700}
+h3{font-size:1.1rem;font-weight:700}
+p{margin:0}
+small,.small{font-size:.86rem;color:var(--muted)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.mono{font-family:var(--mono);font-size:.92em}
+sup,sub{font-size:.72em;line-height:0}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
+.brand .eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:999px;font-weight:700;display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.btn.primary:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:transparent;border-color:transparent;padding-inline:4px;color:var(--muted)}
+.btn.ghost:hover{color:var(--ink)}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:.9rem}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* how-to strip */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.how div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;min-width:0}
+.how b{display:block;font-family:var(--display);font-size:1rem;margin-bottom:2px}
+.how span{font-size:.9rem;color:var(--muted)}
+@media (max-width:620px){.how{grid-template-columns:1fr}}
+
+/* due strip */
+.due{background:var(--warn-soft);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:26px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.due strong{font-family:var(--display)}
+
+/* subjects */
+.subject{margin-bottom:30px}
+.subject-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 12px;padding-bottom:8px;border-bottom:3px solid var(--c);margin-bottom:6px}
+.subject-head .board{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.topic{display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.topic .meta{min-width:0}
+.topic .name{font-weight:700;font-size:1.05rem}
+.topic .sub{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:.86rem;color:var(--muted);margin-top:3px}
+.bar{height:6px;width:110px;background:var(--line);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle}
+.bar i{display:block;height:100%;background:var(--c)}
+.pill{font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:999px;border:1px solid currentColor;letter-spacing:.02em;white-space:nowrap}
+.pill.new{color:var(--muted)}
+.pill.due{color:var(--warn);background:var(--warn-soft);border-color:transparent}
+.pill.ok{color:var(--good);background:var(--good-soft);border-color:transparent}
+.topic .acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.topic .acts .btn{min-height:40px;padding:6px 14px;font-size:.92rem}
+.topic .acts .go{background:var(--c);border-color:var(--c);color:var(--surface)}
+@media (max-width:560px){.topic{grid-template-columns:1fr}.topic .acts{justify-content:flex-start}}
+
+/* card */
+.crumb{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-bottom:12px;font-size:.9rem;color:var(--muted)}
+.crumb .tag{color:var(--c);font-weight:700}
+.card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:var(--radius);padding:22px clamp(16px,4vw,28px);margin-bottom:16px}
+.progress{display:flex;gap:4px;margin:2px 0 16px}
+.progress i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.progress i.r{background:var(--good)} .progress i.w{background:var(--bad)} .progress i.cur{background:var(--c)}
+.qnum{font-family:var(--mono);font-size:.8rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.qtext{font-size:1.12rem;margin-bottom:18px}
+.qtext small{display:block;margin-top:6px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);padding:12px 14px;border-radius:8px;width:100%}
+.opt .k{font-family:var(--mono);font-weight:600;color:var(--muted);min-width:1.2em}
+.opt:hover:not(:disabled){border-color:var(--c)}
+.opt.sel{border-color:var(--c);background:var(--c-soft)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt:disabled{cursor:default}
+.field{width:100%;font:inherit;font-size:1.05rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface-2);color:var(--ink)}
+.field.mono{font-family:var(--mono)}
+.field:focus{border-color:var(--c);outline:none}
+textarea.field{min-height:130px;resize:vertical;line-height:1.5}
+.hint{font-size:.85rem;color:var(--muted);margin-top:6px}
+
+.conf{margin-top:20px}
+.conf p{font-size:.9rem;color:var(--muted);margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:999px;font-weight:700;font-size:.92rem;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center}
+
+.feedback{margin-top:18px;border-radius:8px;padding:14px 16px;border:1px solid var(--line)}
+.feedback.ok{background:var(--good-soft);border-color:transparent}
+.feedback.no{background:var(--bad-soft);border-color:transparent}
+.feedback.neutral{background:var(--surface-2)}
+.feedback .verdict{font-family:var(--display);font-weight:700;font-size:1.1rem;margin-bottom:6px}
+.feedback.ok .verdict{color:var(--good)} .feedback.no .verdict{color:var(--bad)}
+.feedback .note{font-size:.9rem;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted)}
+
+.code{font-family:var(--mono);font-size:.88rem;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:10px 0 0;line-height:1.5;white-space:pre}
+.tbl{overflow-x:auto;margin-top:12px}
+.kmap{border-collapse:collapse;font-family:var(--mono);font-size:.95rem}
+.kmap th,.kmap td{border:1px solid var(--line);padding:6px 12px;text-align:center}
+.kmap th{background:var(--surface-2);color:var(--muted);font-weight:600}
+.kmap td{min-width:44px;font-weight:600}
+.ov{display:inline-block;border-top:1.5px solid currentColor;padding-top:1px;line-height:1.15}
+
+details.recap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px}
+details.recap summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style-position:inside}
+details.recap summary small{font-weight:400;margin-left:6px}
+details.recap ul{margin:0;padding:0 18px 16px 34px;display:grid;gap:6px}
+
+/* summary */
+.score{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;margin:6px 0 18px}
+.score .big{font-family:var(--display);font-size:3rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.group{margin-top:16px}
+.group h3{font-size:1rem;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.group ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.group li{font-size:.95rem}
+.group li .t{color:var(--muted);font-size:.82rem;display:block}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* teach */
+.checklist{display:grid;gap:8px;margin-top:10px}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);cursor:pointer}
+.checklist input{width:20px;height:20px;margin-top:2px;accent-color:var(--good);flex:none}
+.model{margin-top:14px}
+.model summary{cursor:pointer;font-weight:700}
+.model p{margin-top:8px}
+
+.ai{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-top:10px}
+.ai summary{cursor:pointer;padding:14px 16px;font-weight:700}
+.ai .in{padding:0 16px 16px;display:grid;gap:10px}
+.ai pre{white-space:pre-wrap;font-family:var(--mono);font-size:.82rem;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px;margin:0}
+.ai ul{margin:0;padding-left:20px;display:grid;gap:4px;font-size:.92rem}
+footer{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--muted)}
+.confirm{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
+@media (prefers-reduced-motion: no-preference){.card{animation:rise .25s ease-out both}@keyframes rise{from{transform:translateY(6px)}to{transform:none}}}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+// ---------- notation helpers ----------
+const ov = (x) => `<span class="ov">${x}</span>`;           // NOT bar / antiparticle bar
+const nubar = (f) => `${ov('ν')}<sub>${f}</sub>`;
+const kmap3 = (r0, r1) => `<div class="tbl"><table class="kmap"><tr><th>A \\ BC</th><th>00</th><th>01</th><th>11</th><th>10</th></tr>
+<tr><th>0</th>${r0.map(c=>`<td>${c}</td>`).join('')}</tr>
+<tr><th>1</th>${r1.map(c=>`<td>${c}</td>`).join('')}</tr></table></div>`;
+const kmap2 = (r0, r1) => `<div class="tbl"><table class="kmap"><tr><th>A \\ B</th><th>0</th><th>1</th></tr>
+<tr><th>0</th>${r0.map(c=>`<td>${c}</td>`).join('')}</tr>
+<tr><th>1</th>${r1.map(c=>`<td>${c}</td>`).join('')}</tr></table></div>`;
+const code = (s) => `<pre class="code">${s}</pre>`;
+
+// Question types:
+//  mcq  : o = options, a = index of correct option
+//  num  : a = number. tol = relative tolerance (default exact for integers, 1% otherwise)
+//  txt  : a = list of accepted answers (compared after removing spaces/brackets, case-insensitive)
+//  self : she writes her own working, reveals the model solution and marks herself
+// Every question has e = explanation / worked solution shown after answering.
+
+const SUBJECTS = [
+// =====================================================================
+{ id:'phys', name:'Physics', board:'AQA', spec:'7408 · Section 3.2 Particles and radiation', topics:[
+// ---------------------------------------------------------------------
+{ id:'phys-nuc', name:'Atoms, nuclei & decay', spec:'3.2.1.1 to 3.2.1.3',
+  recap:[
+    'Proton: charge +1.60×10<sup>−19</sup> C, mass 1.67×10<sup>−27</sup> kg. Neutron: charge 0, mass 1.67×10<sup>−27</sup> kg. Electron: charge −1.60×10<sup>−19</sup> C, mass 9.11×10<sup>−31</sup> kg.',
+    '<b>Specific charge</b> = charge ÷ mass, in C kg<sup>−1</sup>.',
+    'Nucleon number A = protons + neutrons. Proton number Z = protons. Isotopes have the same Z but different numbers of neutrons.',
+    '<b>Strong nuclear force</b> holds the nucleus together against electrostatic repulsion. Attractive up to about 3 fm, repulsive below about 0.5 fm.',
+    '<b>Alpha decay</b>: nucleus loses <sup>4</sup><sub>2</sub>α, so A falls by 4 and Z falls by 2.',
+    '<b>Beta-minus decay</b>: n → p + e<sup>−</sup> + '+nubar('e')+'. A unchanged, Z rises by 1. The antineutrino was proposed because beta particles have a <i>range</i> of energies.',
+    '<b>Antiparticles</b> have the same mass and rest energy but opposite charge. Annihilation: particle + antiparticle → two photons. Pair production: one photon → particle + antiparticle, needs E ≥ 2 × rest energy.',
+    'Photon energy: E = hf = hc/λ.'
+  ],
+  teach:{ prompt:'Explain why the strong nuclear force has to exist, and describe how it changes with the separation between nucleons.',
+    points:['Protons in the nucleus repel each other electrostatically','Something must overcome this repulsion, or the nucleus would fly apart','The strong force acts between all nucleons (protons and neutrons)','It is attractive from about 0.5 fm up to about 3 fm','It is repulsive below about 0.5 fm, which stops the nucleus collapsing','It has a very short range, so it only acts between neighbouring nucleons'],
+    model:'The protons in a nucleus are positively charged, so they repel each other electrostatically. Without another force holding them together, every nucleus with more than one proton would fly apart. The strong nuclear force acts between nucleons (protons and neutrons). It is strongly attractive at separations from about 0.5 fm to about 3 fm, which holds the nucleons together. Below about 0.5 fm it becomes repulsive, which stops the nucleons being pulled into each other. Its range is very short (a few fm), so it only acts between neighbouring nucleons, unlike the electrostatic force which acts across the whole nucleus.' },
+  qs:[
+    {t:'num', q:'Calculate the specific charge of a proton. Give your answer in C kg<sup>−1</sup>.', a:9.58e7, tol:0.02, unit:'C kg⁻¹',
+     e:'Specific charge = charge ÷ mass = 1.60×10<sup>−19</sup> ÷ 1.67×10<sup>−27</sup> = <b>9.58×10<sup>7</sup> C kg<sup>−1</sup></b>.'},
+    {t:'num', q:'Calculate the specific charge of a <sup>12</sup><sub>6</sub>C <i>nucleus</i>. Use 1.67×10<sup>−27</sup> kg as the mass of each nucleon.', a:4.79e7, tol:0.02, unit:'C kg⁻¹',
+     e:'Charge = 6 protons × 1.60×10<sup>−19</sup> = 9.60×10<sup>−19</sup> C.<br>Mass = 12 nucleons × 1.67×10<sup>−27</sup> = 2.004×10<sup>−26</sup> kg.<br>Specific charge = 9.60×10<sup>−19</sup> ÷ 2.004×10<sup>−26</sup> = <b>4.79×10<sup>7</sup> C kg<sup>−1</sup></b>.<br>Common mistake: including the electrons. The question asks about the nucleus only.'},
+    {t:'num', q:'How many neutrons are in a nucleus of <sup>235</sup><sub>92</sub>U?', a:143,
+     e:'Neutrons = A − Z = 235 − 92 = <b>143</b>.'},
+    {t:'mcq', q:'<sup>238</sup><sub>92</sub>U decays by alpha emission. What is the daughter nucleus?', o:['<sup>234</sup><sub>90</sub>Th','<sup>234</sup><sub>92</sub>U','<sup>238</sup><sub>90</sub>Th','<sup>236</sup><sub>91</sub>Pa'], a:0,
+     e:'An alpha particle is <sup>4</sup><sub>2</sub>He, so A falls by 4 (238 → 234) and Z falls by 2 (92 → 90). Element 90 is thorium.'},
+    {t:'mcq', q:'Which particles are emitted from the nucleus in β<sup>−</sup> decay?', o:['An electron and an electron antineutrino','A positron and an electron neutrino','An electron and an electron neutrino','A proton and an electron'], a:0,
+     e:'n → p + e<sup>−</sup> + '+nubar('e')+'. Lepton number must be conserved: the electron has L<sub>e</sub> = +1, so the other lepton must have L<sub>e</sub> = −1, which is the anti<i>neutrino</i>. The proton stays in the nucleus.'},
+    {t:'mcq', q:'Why did physicists propose the existence of the neutrino (antineutrino) in beta decay?', o:['Beta particles were emitted with a range of kinetic energies, so energy seemed not to be conserved','Charge was not conserved in beta decay','Alpha particles were emitted with a range of energies','It was needed to explain why nuclei contain neutrons'], a:0,
+     e:'If only the beta particle carried away the energy released, every beta particle would have the same energy. Instead they have a continuous range, so another (very hard to detect) particle must carry the missing energy and momentum.'},
+    {t:'mcq', q:'Which statement about the strong nuclear force is correct?', o:['It is attractive between about 0.5 fm and 3 fm, and repulsive below about 0.5 fm','It is attractive at all separations and has an infinite range','It acts only between protons','It is repulsive between about 0.5 fm and 3 fm'], a:0,
+     e:'The strong force acts between all nucleons. It is attractive up to about 3 fm (holding the nucleus together) and repulsive below about 0.5 fm (stopping it collapsing).'},
+    {t:'num', q:'Calculate the energy of a photon of wavelength 500 nm. Give your answer in joules.<br><small>h = 6.63×10<sup>−34</sup> J s, c = 3.00×10<sup>8</sup> m s<sup>−1</sup></small>', a:3.98e-19, tol:0.02, unit:'J',
+     e:'E = hc/λ = (6.63×10<sup>−34</sup> × 3.00×10<sup>8</sup>) ÷ (500×10<sup>−9</sup>) = <b>3.98×10<sup>−19</sup> J</b>.<br>Watch the unit: 500 nm = 500×10<sup>−9</sup> m.'},
+    {t:'num', q:'The rest energy of an electron is 0.511 MeV. What is the minimum photon energy, in MeV, needed for pair production of an electron and a positron?', a:1.022, tol:0.01, unit:'MeV',
+     e:'The photon must supply the rest energy of <i>both</i> particles: 2 × 0.511 = <b>1.022 MeV</b>. Any extra energy becomes kinetic energy of the pair.'},
+    {t:'mcq', q:'A proton and an antiproton, both at rest, annihilate. What is produced?', o:['Two gamma photons moving in opposite directions','One gamma photon','A neutron and an antineutron','Two photons moving in the same direction'], a:0,
+     e:'Total momentum before is zero, so total momentum after must be zero. One photon would carry momentum, so you need two photons of equal energy travelling in opposite directions.'},
+    {t:'num', q:'A proton and an antiproton at rest annihilate. The rest energy of a proton is 938 MeV. What is the energy, in MeV, of <i>each</i> photon produced?', a:938, tol:0.01, unit:'MeV',
+     e:'Total energy = 2 × 938 MeV, shared equally between two photons, so each has <b>938 MeV</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'phys-part', name:'Particles, quarks & conservation', spec:'3.2.1.4 to 3.2.1.7',
+  recap:[
+    'Four fundamental interactions: gravity, electromagnetic, strong, weak. Exchange particles: virtual photon (electromagnetic), W<sup>+</sup> and W<sup>−</sup> (weak), pion (strong force between nucleons).',
+    '<b>Hadrons</b> feel the strong force and are made of quarks. <b>Baryons</b> = 3 quarks (proton uud, neutron udd). <b>Mesons</b> = quark + antiquark (pions, kaons). The proton is the only stable baryon.',
+    '<b>Leptons</b> do not feel the strong force: electron, muon, and their neutrinos. Muons decay into electrons.',
+    'Quarks: u (Q = +⅔, B = ⅓, S = 0), d (Q = −⅓, B = ⅓, S = 0), s (Q = −⅓, B = ⅓, S = −1). Antiquarks have the opposite values.',
+    'Always conserved: charge, baryon number, electron lepton number, muon lepton number, energy and momentum.',
+    '<b>Strangeness</b> is conserved in strong interactions, but can change by 0 or ±1 in weak interactions. Strange particles are made in pairs by the strong interaction and decay by the weak interaction.',
+    'β<sup>−</sup> decay at quark level: d → u + W<sup>−</sup>, then W<sup>−</sup> → e<sup>−</sup> + '+nubar('e')+'.'
+  ],
+  teach:{ prompt:'Explain the difference between hadrons and leptons. Give examples of each, and say which interactions they can take part in.',
+    points:['Hadrons are made of quarks; leptons are fundamental (not made of anything smaller)','Hadrons feel the strong interaction; leptons do not','Hadrons split into baryons (3 quarks, e.g. proton, neutron) and mesons (quark + antiquark, e.g. pion, kaon)','Leptons include the electron, muon and neutrinos','Both can take part in the weak interaction, and charged ones in the electromagnetic interaction','Baryon number and lepton numbers are conserved separately'],
+    model:'Hadrons are particles made of quarks, and they feel the strong interaction. There are two families: baryons, made of three quarks (such as the proton uud and neutron udd), and mesons, made of a quark and an antiquark (such as pions and kaons). Leptons are fundamental particles that do not feel the strong interaction. They include the electron, the muon and the neutrinos. Both hadrons and leptons can take part in the weak interaction, and any charged particle also feels the electromagnetic interaction. In any interaction, baryon number is conserved, and electron lepton number and muon lepton number are each conserved separately.' },
+  qs:[
+    {t:'mcq', q:'What is the quark composition of a proton?', o:['uud','udd','uus','u'+ov('d')], a:0,
+     e:'Charge check: +⅔ + ⅔ − ⅓ = +1. Baryon number: ⅓ × 3 = 1. The neutron is udd (charge 0).'},
+    {t:'mcq', q:'What is the quark composition of a π<sup>+</sup> meson?', o:['u'+ov('d'),ov('u')+'d','uud','d'+ov('s')], a:0,
+     e:'Mesons are a quark plus an antiquark. u has charge +⅔ and '+ov('d')+' has charge +⅓, giving +1. '+ov('u')+'d has charge −1 (that is the π<sup>−</sup>).'},
+    {t:'mcq', q:'Which quantity is conserved in <i>every</i> particle interaction?', o:['Baryon number','Strangeness','The number of mesons','Quark flavour'], a:0,
+     e:'Baryon number is always conserved. Strangeness can change by ±1 in weak interactions, and quark flavour changes in weak interactions (e.g. d → u in β<sup>−</sup> decay).'},
+    {t:'mcq', q:'Which of these interactions is <b>not</b> possible?', o:['p + e<sup>−</sup> → n + '+nubar('e'),'p + p → p + p + π<sup>0</sup>','n → p + e<sup>−</sup> + '+nubar('e'),'μ<sup>−</sup> → e<sup>−</sup> + '+nubar('e')+' + ν<sub>μ</sub>'], a:0,
+     e:'Check electron lepton number for the first one: left side 0 + 1 = 1; right side 0 + (−1) = −1. Not conserved, so it cannot happen. (Electron capture actually produces a neutrino ν<sub>e</sub>, not an antineutrino.) The other three conserve charge, baryon number and both lepton numbers.'},
+    {t:'mcq', q:'Which exchange particle is involved in β<sup>−</sup> decay?', o:['W<sup>−</sup>','W<sup>+</sup>','Virtual photon','Pion'], a:0,
+     e:'β<sup>−</sup> decay is a weak interaction. A d quark becomes a u quark and emits a W<sup>−</sup>, which then decays into an electron and an electron antineutrino. Charge is conserved at each vertex: d (−⅓) → u (+⅔) + W<sup>−</sup> (−1).'},
+    {t:'num', q:'A K<sup>+</sup> meson is made of u'+ov('s')+'. What is its strangeness?', a:1,
+     e:'The s quark has strangeness −1, so the anti-strange quark '+ov('s')+' has strangeness <b>+1</b>. The u quark has strangeness 0.'},
+    {t:'mcq', q:'Which of these is a lepton?', o:['Muon','Pion','Kaon','Neutron'], a:0,
+     e:'Pions and kaons are mesons, the neutron is a baryon. The muon is a lepton (a heavier version of the electron), and it does not feel the strong force.'},
+    {t:'mcq', q:'Which of these is a baryon?', o:['Neutron','π<sup>0</sup>','K<sup>−</sup>','Electron neutrino'], a:0,
+     e:'Baryons are made of three quarks. The neutron is udd. π<sup>0</sup> and K<sup>−</sup> are mesons (quark + antiquark), and neutrinos are leptons.'},
+    {t:'mcq', q:'How are strange particles produced, and how do they decay?', o:['Produced in pairs by the strong interaction; decay by the weak interaction','Produced by the weak interaction; decay by the strong interaction','Produced and decay by the strong interaction','Produced singly by the electromagnetic interaction'], a:0,
+     e:'The strong interaction conserves strangeness, so strange particles must be made in pairs (S = +1 and S = −1). They decay by the weak interaction, which is why their decay changes strangeness and why they live relatively long.'},
+    {t:'mcq', q:'A baryon has charge −1, baryon number +1 and strangeness −1. What is its quark composition?', o:['dds','uus','uds','ddd'], a:0,
+     e:'Strangeness −1 means one s quark. Charge: d (−⅓) + d (−⅓) + s (−⅓) = −1. Baryon number: 3 × ⅓ = 1. This is the Σ<sup>−</sup>.'},
+    {t:'mcq', q:'The pion is the exchange particle for which force?', o:['The strong nuclear force between nucleons','The weak interaction','The electromagnetic force','Gravity'], a:0,
+     e:'On the AQA spec, the pion is the exchange particle of the strong nuclear force between nucleons. W bosons carry the weak interaction and virtual photons carry the electromagnetic force.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'phys-qu', name:'Photons & quantum phenomena', spec:'3.2.2',
+  recap:[
+    '<b>Photoelectric effect</b>: hf = φ + E<sub>k(max)</sub>. Threshold frequency f<sub>0</sub> = φ/h.',
+    'Below f<sub>0</sub>, no electrons are emitted however bright the light. Intensity changes the <i>number</i> of electrons per second, not their maximum kinetic energy.',
+    'Stopping potential V<sub>s</sub>: eV<sub>s</sub> = E<sub>k(max)</sub>.',
+    '1 eV = 1.60×10<sup>−19</sup> J.',
+    '<b>Excitation</b>: an electron moves to a higher energy level. <b>Ionisation</b>: the electron is removed completely.',
+    'When an electron drops between levels it emits a photon: hf = E<sub>1</sub> − E<sub>2</sub>. Line spectra are evidence for discrete energy levels.',
+    'Fluorescent tube: electrons collide with mercury atoms, which emit UV photons. The phosphor coating absorbs UV and re-emits visible light.',
+    '<b>Wave-particle duality</b>: the photoelectric effect shows light behaving as particles; electron diffraction shows electrons behaving as waves. de Broglie: λ = h/(mv).'
+  ],
+  teach:{ prompt:'Explain how the photoelectric effect shows that light behaves as particles, and why the wave model cannot explain it.',
+    points:['Light arrives as photons, each with energy hf','One photon is absorbed by one electron','An electron is only released if hf ≥ work function, which gives a threshold frequency','Below the threshold, no electrons are released however intense the light','Maximum kinetic energy depends on frequency, not intensity','Intensity affects the number of photons, so the number of electrons per second','Emission is instant; the wave model predicts energy would build up over time at any frequency'],
+    model:'In the particle model, light arrives as photons, each with energy hf. Each photon is absorbed by a single electron. The electron can only escape if hf is at least the work function φ, so there is a threshold frequency f₀ = φ/h. Below it, no electrons are emitted no matter how intense the light, because increasing intensity only increases the number of photons, not the energy of each one. Above it, the maximum kinetic energy is hf − φ, so it depends on frequency only, and the rate of emission depends on intensity. Emission is also instantaneous. The wave model predicts the opposite: any frequency should eventually release electrons if the light is bright enough or shone for long enough, because the energy would build up. That is not what is observed.' },
+  qs:[
+    {t:'num', q:'A metal has a work function of 2.3 eV. Calculate its threshold frequency in Hz.<br><small>h = 6.63×10<sup>−34</sup> J s, 1 eV = 1.60×10<sup>−19</sup> J</small>', a:5.55e14, tol:0.02, unit:'Hz',
+     e:'Convert to joules first: φ = 2.3 × 1.60×10<sup>−19</sup> = 3.68×10<sup>−19</sup> J.<br>f<sub>0</sub> = φ/h = 3.68×10<sup>−19</sup> ÷ 6.63×10<sup>−34</sup> = <b>5.55×10<sup>14</sup> Hz</b>.'},
+    {t:'num', q:'Light of frequency 8.0×10<sup>14</sup> Hz shines on the same metal (φ = 2.3 eV). Calculate the maximum kinetic energy of the photoelectrons in joules.', a:1.62e-19, tol:0.03, unit:'J',
+     e:'Photon energy hf = 6.63×10<sup>−34</sup> × 8.0×10<sup>14</sup> = 5.30×10<sup>−19</sup> J.<br>E<sub>k(max)</sub> = hf − φ = 5.30×10<sup>−19</sup> − 3.68×10<sup>−19</sup> = <b>1.62×10<sup>−19</sup> J</b>.'},
+    {t:'num', q:'Using your answer to the previous question (E<sub>k(max)</sub> = 1.62×10<sup>−19</sup> J), what is the stopping potential in volts?', a:1.01, tol:0.03, unit:'V',
+     e:'eV<sub>s</sub> = E<sub>k(max)</sub>, so V<sub>s</sub> = 1.62×10<sup>−19</sup> ÷ 1.60×10<sup>−19</sup> = <b>1.01 V</b> (about 1.0 V).'},
+    {t:'mcq', q:'Light above the threshold frequency shines on a metal. The intensity is doubled but the frequency stays the same. What happens?', o:['More electrons are emitted per second; their maximum kinetic energy is unchanged','The maximum kinetic energy of the electrons doubles','The same number of electrons are emitted, but faster','The threshold frequency halves'], a:0,
+     e:'Doubling intensity doubles the number of photons per second, so twice as many electrons are released. Each photon still has energy hf, so E<sub>k(max)</sub> = hf − φ is unchanged.'},
+    {t:'mcq', q:'Which observation can the wave model of light <b>not</b> explain?', o:['No electrons are emitted below a threshold frequency, however intense the light','Electrons are emitted when UV light is used','Brighter light releases more electrons','Light can be diffracted'], a:0,
+     e:'In the wave model, energy is spread across the wave and would build up over time, so any frequency should eventually release electrons. The existence of a sharp threshold frequency needs the photon model.'},
+    {t:'num', q:'An electron in a hydrogen atom drops from the −3.40 eV level to the −13.6 eV level. What is the energy of the emitted photon in eV?', a:10.2, tol:0.01, unit:'eV',
+     e:'ΔE = E<sub>1</sub> − E<sub>2</sub> = −3.40 − (−13.6) = <b>10.2 eV</b>.'},
+    {t:'num', q:'Calculate the wavelength of that 10.2 eV photon. Give your answer in metres.', a:1.22e-7, tol:0.02, unit:'m',
+     e:'E = 10.2 × 1.60×10<sup>−19</sup> = 1.632×10<sup>−18</sup> J.<br>λ = hc/E = (6.63×10<sup>−34</sup> × 3.00×10<sup>8</sup>) ÷ 1.632×10<sup>−18</sup> = <b>1.22×10<sup>−7</sup> m</b> (122 nm, ultraviolet).'},
+    {t:'num', q:'Calculate the de Broglie wavelength of an electron moving at 2.0×10<sup>6</sup> m s<sup>−1</sup>. Give your answer in metres.<br><small>m<sub>e</sub> = 9.11×10<sup>−31</sup> kg</small>', a:3.64e-10, tol:0.02, unit:'m',
+     e:'λ = h/(mv) = 6.63×10<sup>−34</sup> ÷ (9.11×10<sup>−31</sup> × 2.0×10<sup>6</sup>) = <b>3.64×10<sup>−10</sup> m</b>. This is similar to the spacing of atoms, which is why electrons diffract through crystals.'},
+    {t:'mcq', q:'Which observation is evidence that electrons behave as waves?', o:['Electron diffraction','The photoelectric effect','Line emission spectra','β<sup>−</sup> decay'], a:0,
+     e:'Diffraction is a wave property. When electrons pass through a thin crystal they form a diffraction pattern of rings. The photoelectric effect is evidence for the <i>particle</i> nature of light.'},
+    {t:'mcq', q:'In a fluorescent tube, what does the phosphor coating do?', o:['Absorbs ultraviolet photons and re-emits visible light','Produces free electrons by the photoelectric effect','Ionises the mercury atoms','Absorbs visible light and re-emits ultraviolet'], a:0,
+     e:'Electrons collide with mercury atoms and excite them. When the mercury electrons de-excite they emit mainly UV photons. The coating absorbs these and its own electrons cascade down through smaller steps, emitting visible light.'},
+    {t:'num', q:'The ground state of hydrogen is −13.6 eV. What is its ionisation energy in joules?', a:2.18e-18, tol:0.02, unit:'J',
+     e:'Ionisation energy = 13.6 eV = 13.6 × 1.60×10<sup>−19</sup> = <b>2.18×10<sup>−18</sup> J</b>.'}
+  ]}
+]},
+// =====================================================================
+{ id:'maths', name:'Maths', board:'Edexcel', spec:'9MA0 · Pure Year 1', topics:[
+// ---------------------------------------------------------------------
+{ id:'m-line', name:'Straight lines', spec:'Pure Year 1, chapter 5',
+  recap:[
+    'Gradient m = (y<sub>2</sub> − y<sub>1</sub>) ÷ (x<sub>2</sub> − x<sub>1</sub>).',
+    'Forms of a line: y = mx + c, y − y<sub>1</sub> = m(x − x<sub>1</sub>), and ax + by + c = 0 (a, b, c integers).',
+    'Parallel lines have equal gradients. Perpendicular lines: m<sub>1</sub> × m<sub>2</sub> = −1, so the perpendicular gradient is the negative reciprocal.',
+    'Midpoint = ((x<sub>1</sub> + x<sub>2</sub>)/2, (y<sub>1</sub> + y<sub>2</sub>)/2). Distance = √((x<sub>2</sub> − x<sub>1</sub>)² + (y<sub>2</sub> − y<sub>1</sub>)²).',
+    'To find where two lines meet, solve their equations simultaneously.',
+    'Perpendicular bisector of AB: passes through the midpoint of AB with gradient perpendicular to AB.'
+  ],
+  teach:{ prompt:'Explain how to find the equation of a line perpendicular to 2x + 5y − 3 = 0 passing through (1, 4). Describe each step and why you do it.',
+    points:['Rearrange into y = mx + c to read off the gradient (−2/5)','Perpendicular gradient is the negative reciprocal (5/2) because m₁ × m₂ = −1','Use y − y₁ = m(x − x₁) with the point (1, 4)','Tidy into the form the question asks for (e.g. ax + by + c = 0 with integers)','Check: the point satisfies the final equation'],
+    model:'First rearrange 2x + 5y − 3 = 0 to y = −(2/5)x + 3/5, so the gradient is −2/5. Perpendicular gradients multiply to −1, so the new gradient is the negative reciprocal: 5/2. Then use y − y₁ = m(x − x₁): y − 4 = (5/2)(x − 1). Multiply by 2: 2y − 8 = 5x − 5, so 5x − 2y + 3 = 0. Check with (1, 4): 5 − 8 + 3 = 0. Correct.' },
+  qs:[
+    {t:'num', q:'Find the gradient of the line through (2, −1) and (6, 7).', a:2,
+     e:'m = (7 − (−1)) ÷ (6 − 2) = 8 ÷ 4 = <b>2</b>.'},
+    {t:'mcq', q:'Find the equation of the line with gradient −2 passing through (3, 4).', o:['y = −2x + 10','y = −2x − 2','y = −2x + 4','y = 2x − 2'], a:0,
+     e:'y − 4 = −2(x − 3) → y − 4 = −2x + 6 → <b>y = −2x + 10</b>. Check: when x = 3, y = −6 + 10 = 4.'},
+    {t:'num', q:'Find the gradient of a line perpendicular to 3x + 4y − 12 = 0. (You can type a fraction, e.g. 2/5.)', a:4/3, tol:0.005,
+     e:'Rearrange: 4y = −3x + 12, so y = −(3/4)x + 3. Gradient = −3/4.<br>Perpendicular gradient = negative reciprocal = <b>4/3</b>.'},
+    {t:'mcq', q:'Write y = (2/3)x − 5 in the form ax + by + c = 0, where a, b and c are integers.', o:['2x − 3y − 15 = 0','2x − 3y − 5 = 0','2x + 3y − 15 = 0','3x − 2y − 15 = 0'], a:0,
+     e:'Multiply by 3: 3y = 2x − 15. Move everything to one side: <b>2x − 3y − 15 = 0</b>. A common slip is forgetting to multiply the −5 by 3.'},
+    {t:'num', q:'Find the distance between (−1, 2) and (5, 10).', a:10,
+     e:'√((5 − (−1))² + (10 − 2)²) = √(36 + 64) = √100 = <b>10</b>.'},
+    {t:'txt', q:'Find the point where y = 2x − 1 meets x + 3y = 11. Type it as (x, y).', a:['2,3'],
+     e:'Substitute: x + 3(2x − 1) = 11 → 7x − 3 = 11 → x = 2. Then y = 2(2) − 1 = 3. Answer <b>(2, 3)</b>.'},
+    {t:'num', q:'The line 2x + y = 8 crosses the x-axis at A and the y-axis at B. O is the origin. Find the area of triangle OAB.', a:16,
+     e:'At A, y = 0 so x = 4. At B, x = 0 so y = 8.<br>Area = ½ × 4 × 8 = <b>16</b>.'},
+    {t:'mcq', q:'What is the relationship between y = 3x + 2 and 6x − 2y + 5 = 0?', o:['Parallel','Perpendicular','Neither','They are the same line'], a:0,
+     e:'Rearrange the second: 2y = 6x + 5, so y = 3x + 2.5. Both have gradient 3 but different intercepts, so they are <b>parallel</b> (not the same line).'},
+    {t:'self', q:'Find the equation of the perpendicular bisector of A(1, 3) and B(5, 7). Write your working, then check against the worked solution.',
+     e:'Midpoint of AB = (3, 5).<br>Gradient of AB = (7 − 3)/(5 − 1) = 1, so the perpendicular gradient is −1.<br>y − 5 = −1(x − 3) → <b>y = −x + 8</b> (or x + y − 8 = 0).'},
+    {t:'num', q:'The point (k, 5) lies on the line 3x − 2y + 4 = 0. Find k.', a:2,
+     e:'3k − 2(5) + 4 = 0 → 3k − 6 = 0 → <b>k = 2</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'m-circ', name:'Circles', spec:'Pure Year 1, chapter 6',
+  recap:[
+    'Circle with centre (a, b) and radius r: (x − a)² + (y − b)² = r².',
+    'From x² + y² + 2fx + 2gy + c = 0, complete the square in x and in y to find the centre and radius.',
+    'A tangent is perpendicular to the radius at the point of contact.',
+    'The perpendicular from the centre to a chord bisects the chord.',
+    'The angle in a semicircle is a right angle, so if angle ACB = 90°, AB is a diameter.',
+    'Line and circle: substitute the line into the circle and use the discriminant. Two points if b² − 4ac > 0, tangent if = 0, no intersection if < 0.'
+  ],
+  teach:{ prompt:'Explain how to find the centre and radius of a circle written as x² + y² + ax + by + c = 0, and how you can tell if the equation is not a real circle.',
+    points:['Group the x terms and the y terms','Complete the square for x and for y','Move all constants to the right-hand side','Centre is (−a/2, −b/2), read with signs flipped from the brackets','Radius is the square root of the right-hand side','If the right-hand side is zero or negative, it is not a real circle'],
+    model:'Group the x terms and y terms: (x² + ax) + (y² + by) + c = 0. Complete the square for each: (x + a/2)² − (a/2)² + (y + b/2)² − (b/2)² + c = 0. Move the constants across: (x + a/2)² + (y + b/2)² = (a/2)² + (b/2)² − c. The centre is (−a/2, −b/2), and the radius is the square root of the right-hand side. The right-hand side is r², so it must be positive; if it is zero or negative, the equation does not describe a real circle.' },
+  qs:[
+    {t:'mcq', q:'Give the centre and radius of (x − 3)² + (y + 2)² = 25.', o:['Centre (3, −2), radius 5','Centre (−3, 2), radius 5','Centre (3, −2), radius 25','Centre (3, 2), radius 5'], a:0,
+     e:'Compare with (x − a)² + (y − b)² = r²: a = 3, b = −2 and r = √25 = 5. Remember to flip the signs inside the brackets.'},
+    {t:'num', q:'Find the radius of the circle x² + y² − 6x + 8y − 11 = 0.', a:6,
+     e:'(x − 3)² − 9 + (y + 4)² − 16 − 11 = 0 → (x − 3)² + (y + 4)² = 36. Radius = <b>6</b>.'},
+    {t:'txt', q:'Find the centre of the same circle, x² + y² − 6x + 8y − 11 = 0. Type it as (x, y).', a:['3,-4'],
+     e:'From (x − 3)² + (y + 4)² = 36, the centre is <b>(3, −4)</b>.'},
+    {t:'self', q:'Find the equation of the tangent to (x − 1)² + (y − 2)² = 25 at the point (4, 6). Give your answer in the form ax + by + c = 0.',
+     e:'Centre (1, 2). Gradient of radius = (6 − 2)/(4 − 1) = 4/3.<br>Tangent is perpendicular, so gradient = −3/4.<br>y − 6 = −(3/4)(x − 4) → 4y − 24 = −3x + 12 → <b>3x + 4y − 36 = 0</b>.<br>Check: 3(4) + 4(6) − 36 = 0.'},
+    {t:'mcq', q:'The line y = x + k is a tangent to the circle x² + y² = 8. Find the possible values of k.', o:['k = ±4','k = ±2√2','k = ±8','k = ±2'], a:0,
+     e:'Substitute: x² + (x + k)² = 8 → 2x² + 2kx + k² − 8 = 0.<br>Tangent means one repeated root, so b² − 4ac = 0: (2k)² − 4(2)(k² − 8) = 0 → −4k² + 64 = 0 → k² = 16 → <b>k = ±4</b>.'},
+    {t:'mcq', q:'A, B and C lie on a circle. Which fact proves that AB is a diameter?', o:['Angle ACB = 90°','AC = BC','Angle CAB = 90°','AB is the longest side'], a:0,
+     e:'The angle in a semicircle is a right angle. So if the angle at C, subtended by AB, is 90°, then AB must be a diameter.'},
+    {t:'num', q:'A circle has centre (2, −1) and passes through (5, 3). Find its radius.', a:5,
+     e:'r = distance from centre to the point = √((5 − 2)² + (3 − (−1))²) = √(9 + 16) = <b>5</b>.'},
+    {t:'mcq', q:'How many times does the line y = 2x + 1 meet the circle x² + y² = 1?', o:['Twice','Once (it is a tangent)','Never','Infinitely many times'], a:0,
+     e:'Substitute: x² + (2x + 1)² = 1 → 5x² + 4x = 0.<br>Discriminant = 16 − 0 = 16 > 0, so two intersections, at x = 0 and x = −4/5.'},
+    {t:'mcq', q:'Which is the equation of the circle with centre (−2, 5) and radius 3?', o:['(x + 2)² + (y − 5)² = 9','(x − 2)² + (y + 5)² = 9','(x + 2)² + (y − 5)² = 3','(x − 2)² + (y − 5)² = 9'], a:0,
+     e:'(x − a)² + (y − b)² = r² with a = −2, b = 5, r² = 9. Subtracting −2 gives +2.'},
+    {t:'self', q:'A(0, 0), B(6, 0) and C(0, 8) lie on a circle. Find the equation of the circle.',
+     e:'AB is horizontal and AC is vertical, so angle BAC = 90°. The angle in a semicircle is 90°, so BC is a diameter.<br>Centre = midpoint of BC = (3, 4). Radius = ½ × √(6² + 8²) = ½ × 10 = 5.<br><b>(x − 3)² + (y − 4)² = 25</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'m-disc', name:'The discriminant', spec:'Pure Year 1, chapter 2',
+  recap:[
+    'For ax² + bx + c = 0, the discriminant is b² − 4ac.',
+    'b² − 4ac > 0: two distinct real roots (graph crosses the x-axis twice).',
+    'b² − 4ac = 0: one repeated root, also called equal roots (graph touches the x-axis).',
+    'b² − 4ac < 0: no real roots (graph does not meet the x-axis).',
+    '"Real roots" means b² − 4ac ≥ 0.',
+    'To find an unknown constant, write the condition as an equation or inequality in k and solve it. Inequality answers often need the quadratic inequality method.'
+  ],
+  teach:{ prompt:'Explain what the discriminant tells you and why. Link it to the quadratic formula and to the graph.',
+    points:['The discriminant b² − 4ac is the part under the square root in the quadratic formula','Positive: ± gives two different values, so two distinct real roots','Zero: ±0 gives the same value, so one repeated root','Negative: no real square root, so no real roots','Graph crosses the x-axis twice, touches it, or misses it','Used to find unknown constants with an equation or inequality'],
+    model:'The quadratic formula is x = (−b ± √(b² − 4ac)) / 2a. The discriminant b² − 4ac is the part under the square root. If it is positive, the ± gives two different values, so there are two distinct real roots and the graph crosses the x-axis twice. If it is zero, adding or subtracting zero gives the same value, so there is one repeated root and the graph just touches the x-axis. If it is negative, there is no real square root, so there are no real roots and the graph does not meet the x-axis. Because of this, you can use the discriminant to find unknown constants: set it equal to zero for equal roots, or make it > 0 or < 0 and solve the inequality.' },
+  qs:[
+    {t:'num', q:'Calculate the discriminant of 2x² − 5x + 3.', a:1,
+     e:'b² − 4ac = (−5)² − 4(2)(3) = 25 − 24 = <b>1</b>. Positive, so two distinct real roots.'},
+    {t:'mcq', q:'How many real roots does x² + 4x + 7 = 0 have?', o:['None','One repeated root','Two distinct roots','Infinitely many'], a:0,
+     e:'b² − 4ac = 16 − 28 = −12 < 0, so <b>no real roots</b>.'},
+    {t:'num', q:'kx² + 8x + 4 = 0 has equal roots. Find k.', a:4,
+     e:'Equal roots: b² − 4ac = 0 → 64 − 4(k)(4) = 0 → 64 = 16k → <b>k = 4</b>.'},
+    {t:'mcq', q:'x² + kx + 9 = 0 has two distinct real roots. Find the set of possible values of k.', o:['k < −6 or k > 6','−6 < k < 6','k > 6','k ≤ −6 or k ≥ 6'], a:0,
+     e:'Need b² − 4ac > 0: k² − 36 > 0 → (k − 6)(k + 6) > 0.<br>Critical values ±6. A positive quadratic is above zero outside the roots, so <b>k < −6 or k > 6</b>. Strict inequalities because the roots must be distinct.'},
+    {t:'mcq', q:'Describe the graph of y = x² − 6x + 9.', o:['It touches the x-axis at one point','It crosses the x-axis twice','It does not meet the x-axis','It crosses the x-axis once and the y-axis twice'], a:0,
+     e:'b² − 4ac = 36 − 36 = 0, so there is a repeated root. In fact y = (x − 3)², which touches the x-axis at (3, 0).'},
+    {t:'self', q:'Find the range of values of k for which 2x² + kx + 2 = 0 has no real roots.',
+     e:'No real roots: b² − 4ac < 0 → k² − 4(2)(2) < 0 → k² − 16 < 0 → (k − 4)(k + 4) < 0.<br>Between the critical values: <b>−4 < k < 4</b>.'},
+    {t:'num', q:'x² − px + 16 = 0 has a repeated root, and p > 0. Find p.', a:8,
+     e:'b² − 4ac = 0 → p² − 64 = 0 → p = ±8. Since p > 0, <b>p = 8</b>.'},
+    {t:'mcq', q:'The line y = 2x + c is a tangent to the curve y = x² + 3. Find c.', o:['c = 2','c = 3','c = −2','c = 1'], a:0,
+     e:'Set equal: x² + 3 = 2x + c → x² − 2x + (3 − c) = 0.<br>Tangent means equal roots: 4 − 4(3 − c) = 0 → 4 − 12 + 4c = 0 → <b>c = 2</b>.'},
+    {t:'mcq', q:'For which values of k does kx² + (k + 3)x + 1 = 0 have real roots?', o:['All values of k','Only k > 0','Only −9 < k < 1','No values of k'], a:0,
+     e:'b² − 4ac = (k + 3)² − 4k = k² + 2k + 9 = (k + 1)² + 8.<br>This is always at least 8, so always positive: real roots for <b>all k</b>. (When k = 0 the equation becomes 3x + 1 = 0, which still has a real root.)'},
+    {t:'num', q:'x² + 2kx + k + 6 = 0 has equal roots, and k > 0. Find k.', a:3,
+     e:'(2k)² − 4(1)(k + 6) = 0 → 4k² − 4k − 24 = 0 → k² − k − 6 = 0 → (k − 3)(k + 2) = 0.<br>Since k > 0, <b>k = 3</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'m-ineq', name:'Quadratic inequalities', spec:'Pure Year 1, chapter 3',
+  recap:[
+    'Step 1: rearrange so one side is 0. Never divide by an expression containing x (it might be negative or zero).',
+    'Step 2: solve the equation to find the critical values.',
+    'Step 3: sketch the graph. For a positive x² coefficient: "> 0" is outside the critical values; "< 0" is between them.',
+    'Multiplying or dividing by a negative number flips the inequality sign.',
+    'Set notation: x < −1 or x > 5 is {x : x < −1} ∪ {x : x > 5}. "and" regions use ∩.',
+    'For an inequality with x in the denominator, multiply both sides by x² (always positive) rather than by x.'
+  ],
+  teach:{ prompt:'Explain your method for solving a quadratic inequality such as x² − 2x − 8 > 0, and why a sketch matters.',
+    points:['Get zero on one side without dividing by x','Find the critical values by solving the equation (here x = −2 and x = 4)','Sketch the parabola: shape depends on the sign of the x² term','"> 0" means where the graph is above the x-axis','For a positive x² coefficient that is outside the roots: x < −2 or x > 4','Use strict or inclusive signs to match the question, and correct notation (or / set notation)'],
+    model:'First make sure one side is zero. Then solve x² − 2x − 8 = 0 to find the critical values: (x − 4)(x + 2) = 0, so x = 4 or x = −2. Sketch y = x² − 2x − 8: a U-shaped parabola crossing the x-axis at −2 and 4. The inequality asks where y > 0, which is where the graph is above the x-axis. That is outside the roots, so x < −2 or x > 4, or in set notation {x : x < −2} ∪ {x : x > 4}. The sketch matters because it shows you whether you want the region between the roots or outside them, which is the most common place to lose marks.' },
+  qs:[
+    {t:'mcq', q:'Solve x² − 5x + 6 < 0.', o:['2 < x < 3','x < 2 or x > 3','x < 2','−3 < x < −2'], a:0,
+     e:'(x − 2)(x − 3) < 0. Critical values 2 and 3. The U-shaped graph is below zero between the roots: <b>2 < x < 3</b>.'},
+    {t:'mcq', q:'Solve x² − x − 12 ≥ 0.', o:['x ≤ −3 or x ≥ 4','−3 ≤ x ≤ 4','x ≤ −4 or x ≥ 3','x ≥ 4'], a:0,
+     e:'(x − 4)(x + 3) ≥ 0. Critical values −3 and 4. Above (or on) the axis outside the roots: <b>x ≤ −3 or x ≥ 4</b>.'},
+    {t:'mcq', q:'Solve 6 + x − x² > 0.', o:['−2 < x < 3','x < −2 or x > 3','−3 < x < 2','x < −3 or x > 2'], a:0,
+     e:'Multiply by −1 and flip the sign: x² − x − 6 < 0 → (x − 3)(x + 2) < 0 → <b>−2 < x < 3</b>.<br>Or keep it as is: the graph of 6 + x − x² is an upside-down U, which is positive between its roots.'},
+    {t:'mcq', q:'Which is the correct set notation for "x < −1 or x > 5"?', o:['{x : x < −1} ∪ {x : x > 5}','{x : x < −1} ∩ {x : x > 5}','{x : −1 < x < 5}','{x : x > −1} ∪ {x : x < 5}'], a:0,
+     e:'"or" means either region, which is the union ∪. The intersection ∩ of these two sets is empty.'},
+    {t:'self', q:'Solve 2x² + 5x − 3 ≤ 0.',
+     e:'Factorise: (2x − 1)(x + 3) ≤ 0. Critical values x = ½ and x = −3.<br>Positive x² coefficient, "≤ 0" means between the roots, including them: <b>−3 ≤ x ≤ ½</b>.'},
+    {t:'mcq', q:'Find the set of values of x for which both 2x − 1 > 7 and x² − 7x + 10 < 0.', o:['4 < x < 5','2 < x < 5','x > 4','x > 5'], a:0,
+     e:'Linear: 2x > 8 → x > 4.<br>Quadratic: (x − 2)(x − 5) < 0 → 2 < x < 5.<br>Both must be true (the overlap on a number line): <b>4 < x < 5</b>.'},
+    {t:'mcq', q:'Solve x² > 9x.', o:['x < 0 or x > 9','x > 9','0 < x < 9','x > 3'], a:0,
+     e:'Do not divide by x: that loses the negative solutions. Rearrange: x² − 9x > 0 → x(x − 9) > 0.<br>Critical values 0 and 9; outside the roots: <b>x < 0 or x > 9</b>.'},
+    {t:'mcq', q:'Solve 4/x < 2, where x ≠ 0.', o:['x < 0 or x > 2','x > 2','0 < x < 2','x < 2'], a:0,
+     e:'Multiply both sides by x² (always positive, so the sign stays): 4x < 2x² → 2x² − 4x > 0 → 2x(x − 2) > 0.<br><b>x < 0 or x > 2</b>. Multiplying by x alone would miss the negative values.'},
+    {t:'self', q:'Find the set of values of k for which x² + (k − 3)x + (3 − 2k) = 0 has two distinct real roots.',
+     e:'Need b² − 4ac > 0: (k − 3)² − 4(3 − 2k) > 0<br>→ k² − 6k + 9 − 12 + 8k > 0 → k² + 2k − 3 > 0 → (k + 3)(k − 1) > 0.<br>Outside the roots: <b>k < −3 or k > 1</b>.'}
+  ]}
+]},
+// =====================================================================
+{ id:'cs', name:'Computer Science', board:'AQA', spec:'7517 · Data representation & programming', topics:[
+// ---------------------------------------------------------------------
+{ id:'cs-sets', name:'Number systems & sets', spec:'4.5.1 and 4.4 (sets)',
+  recap:[
+    'ℕ natural numbers {0, 1, 2, 3, …} (AQA includes 0). ℤ integers {…, −2, −1, 0, 1, 2, …}.',
+    'ℚ rational numbers: can be written as p/q, where p and q are integers and q ≠ 0. Irrational numbers cannot (√2, π).',
+    'ℝ real numbers: all possible real-world quantities. Natural numbers are used for <b>counting</b>, real numbers for <b>measurement</b>.',
+    'Ordinal numbers describe position in a sequence (1st, 2nd, 3rd).',
+    'A set is an unordered collection with no duplicates. {} or Ø is the empty set. Cardinality = number of elements.',
+    'Set comprehension: A = {x | x ∈ ℕ ∧ x ≥ 1}. ∧ means AND; | means "such that".',
+    'Cartesian product A × B: all ordered pairs (a, b). |A × B| = |A| × |B|.',
+    'Subset ⊆, proper subset ⊂, union ∪, intersection ∩, difference \\. ℕ is countably infinite; ℝ is not countable.'
+  ],
+  teach:{ prompt:'Explain the difference between natural, integer, rational, irrational and real numbers. Give an example of each and say which are used for counting and which for measurement.',
+    points:['Natural ℕ: 0, 1, 2, … (e.g. 7), used for counting','Integer ℤ: whole numbers including negatives (e.g. −3)','Rational ℚ: can be written as p/q with integers p and q (e.g. 0.75 = 3/4)','Irrational: cannot be written as a fraction (e.g. √2, π)','Real ℝ: all of the above together, used for measurement','Each set contains the one before it: ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ'],
+    model:'Natural numbers (ℕ) are 0, 1, 2, 3 and so on, for example 7. They are used for counting. Integers (ℤ) add the negative whole numbers, for example −3. Rational numbers (ℚ) are any number that can be written as a fraction p/q of two integers, for example 0.75 = 3/4. Irrational numbers cannot be written as a fraction, for example √2 or π; their decimals never end or repeat. Real numbers (ℝ) include all rational and irrational numbers and are used for measurement, such as a length of 1.73 m. Each set sits inside the next: ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ.' },
+  qs:[
+    {t:'mcq', q:'Which of these numbers is irrational?', o:['√2','0.75','−3','22/7'], a:0,
+     e:'√2 cannot be written as a fraction p/q. 0.75 = 3/4 and 22/7 are rational (22/7 is only an approximation to π), and −3 is an integer.'},
+    {t:'mcq', q:'Which set of numbers is used for <i>measurement</i>?', o:['Real numbers ℝ','Natural numbers ℕ','Integers ℤ','Ordinal numbers'], a:0,
+     e:'Measurements (length, time, temperature) can take any value, including irrational ones, so they use the real numbers. Natural numbers are for counting.'},
+    {t:'mcq', q:'Using the AQA definition, which set is ℕ?', o:['{0, 1, 2, 3, …}','{1, 2, 3, …}','{…, −1, 0, 1, …}','{0, 1}'], a:0,
+     e:'AQA defines the natural numbers as starting at 0: ℕ = {0, 1, 2, 3, …}.'},
+    {t:'mcq', q:'What do ordinal numbers describe?', o:['The position of an item in an ordered sequence','How many items are in a set','A measurement such as length','A number written in base 2'], a:0,
+     e:'Ordinal numbers say where something is in order: 1st, 2nd, 3rd. "How many" is a cardinal number (cardinality).'},
+    {t:'num', q:'What is the cardinality of A = {2, 4, 6, 8}?', a:4,
+     e:'Cardinality is the number of elements: <b>4</b>.'},
+    {t:'num', q:'A = {1, 2, 3} and B = {x, y}. How many elements are in A × B?', a:6,
+     e:'|A × B| = |A| × |B| = 3 × 2 = <b>6</b>: (1,x), (1,y), (2,x), (2,y), (3,x), (3,y).'},
+    {t:'mcq', q:'A = {1, 2, 3, 4, 5} and B = {4, 5, 6}. What is A ∩ B?', o:['{4, 5}','{1, 2, 3, 4, 5, 6}','{1, 2, 3}','{6}'], a:0,
+     e:'Intersection ∩ = elements in both sets: {4, 5}. The union ∪ would be {1, 2, 3, 4, 5, 6}.'},
+    {t:'mcq', q:'Using the same sets, what is A \\ B (the difference)?', o:['{1, 2, 3}','{6}','{4, 5}','{1, 2, 3, 6}'], a:0,
+     e:'A \\ B = elements of A that are not in B: {1, 2, 3}.'},
+    {t:'mcq', q:'Which set is described by {x² | x ∈ ℕ ∧ x < 4}?', o:['{0, 1, 4, 9}','{1, 4, 9}','{0, 1, 2, 3}','{1, 4, 9, 16}'], a:0,
+     e:'x takes the natural numbers below 4: 0, 1, 2, 3 (remember ℕ includes 0). Squaring gives {0, 1, 4, 9}.'},
+    {t:'mcq', q:'Which statement is true?', o:['{1, 2} ⊂ {1, 2, 3}','{1, 2, 3} ⊂ {1, 2, 3}','{4} ⊆ {1, 2, 3}','{1, 2, 3} ⊂ {1, 2}'], a:0,
+     e:'⊂ is a <i>proper</i> subset: every element is included and the set is smaller. A set is a subset (⊆) of itself but not a proper subset (⊂) of itself.'},
+    {t:'mcq', q:'Which of these sets is <b>not</b> countable?', o:['ℝ (real numbers)','ℕ (natural numbers)','ℤ (integers)','{2, 4, 6}'], a:0,
+     e:'ℕ and ℤ are countably infinite (you can list them in order and pair each with a natural number). {2, 4, 6} is finite. The real numbers cannot be listed like this, so ℝ is not countable.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'cs-bases', name:'Number bases & units', spec:'4.5.2 and 4.5.3',
+  recap:[
+    'Base 10 (decimal), base 2 (binary), base 16 (hexadecimal: 0 to 9 then A to F).',
+    'One hex digit = 4 bits (a nibble), so hex is a short, readable way to write binary.',
+    'Binary place values (8 bits): 128, 64, 32, 16, 8, 4, 2, 1.',
+    'n bits can represent 2<sup>n</sup> different values.',
+    '1 byte = 8 bits.',
+    'Decimal prefixes: kilo 10³, mega 10⁶, giga 10⁹, tera 10¹². Binary prefixes: kibi 2¹⁰ (1024), mebi 2²⁰, gibi 2³⁰, tebi 2⁴⁰.'
+  ],
+  teach:{ prompt:'Explain why programmers use hexadecimal, and how to convert a binary number to hex.',
+    points:['Each hex digit represents exactly 4 bits','Hex is shorter and easier for humans to read and write than binary','Fewer mistakes when copying or typing values (e.g. colour codes, memory addresses)','The computer still stores everything as binary; hex is for humans','To convert: split the binary into groups of 4 from the right','Convert each group to one hex digit (10 to 15 become A to F)'],
+    model:'Hexadecimal is used because each hex digit stands for exactly four bits, so long binary numbers become much shorter. That makes them easier for people to read, remember and type, with fewer mistakes, for example in colour codes or memory addresses. The computer still stores and processes everything in binary: hex is only a convenience for humans. To convert binary to hex, split the binary into groups of four bits starting from the right (padding with zeros on the left if needed), then convert each group into one hex digit, using A to F for 10 to 15. For example 1101 0111 is D7.' },
+  qs:[
+    {t:'num', q:'Convert the unsigned binary number 10110110 to decimal.', a:182,
+     e:'128 + 32 + 16 + 4 + 2 = <b>182</b>.'},
+    {t:'txt', q:'Convert 200 (decimal) to 8-bit unsigned binary.', a:['11001000'], mono:true,
+     e:'200 = 128 + 64 + 8, so the bits for 128, 64 and 8 are 1: <b>11001000</b>.'},
+    {t:'num', q:'Convert the hexadecimal number 3F to decimal.', a:63,
+     e:'3 × 16 + F (15) = 48 + 15 = <b>63</b>.'},
+    {t:'txt', q:'Convert the binary number 1101 0111 to hexadecimal.', a:['D7','0xD7'], mono:true,
+     e:'Split into nibbles: 1101 = 13 = D, 0111 = 7. Answer <b>D7</b>.'},
+    {t:'txt', q:'Convert 175 (decimal) to hexadecimal.', a:['AF','0xAF'], mono:true,
+     e:'175 ÷ 16 = 10 remainder 15. 10 = A and 15 = F, so <b>AF</b>.'},
+    {t:'num', q:'How many different values can be represented using 6 bits?', a:64,
+     e:'2<sup>6</sup> = <b>64</b> values (0 to 63 if unsigned).'},
+    {t:'mcq', q:'How many bytes are in 1 kibibyte (KiB)?', o:['1024','1000','8192','1 000 000'], a:0,
+     e:'Kibi is a binary prefix: 2<sup>10</sup> = 1024. A kilobyte (kB) uses the decimal prefix and is 1000 bytes.'},
+    {t:'num', q:'How many bytes are in 3 MB (megabytes, decimal prefix)?', a:3000000,
+     e:'Mega = 10<sup>6</sup>, so 3 MB = 3 × 1 000 000 = <b>3 000 000 bytes</b>. (3 MiB would be 3 × 1 048 576.)'},
+    {t:'mcq', q:'Why is hexadecimal often used instead of binary?', o:['It is easier for humans to read and write, with fewer errors','Computers process hexadecimal faster than binary','Hexadecimal values take up less memory','The CPU stores numbers in base 16'], a:0,
+     e:'Computers always store binary. Hex is purely for people: one hex digit replaces four bits, so values are shorter and easier to read, remember and copy correctly.'},
+    {t:'num', q:'How many bits are in 2 KiB?', a:16384,
+     e:'2 KiB = 2 × 1024 = 2048 bytes. 2048 × 8 = <b>16 384 bits</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'cs-bin', name:'Binary arithmetic', spec:'4.5.4.1 to 4.5.4.5',
+  recap:[
+    'Unsigned binary with n bits: range 0 to 2<sup>n</sup> − 1.',
+    'Addition: 0 + 1 = 1, 1 + 1 = 10 (write 0 carry 1), 1 + 1 + 1 = 11 (write 1 carry 1). For unsigned numbers, a carry out of the last bit means overflow. In two\'s complement, overflow shows up as a sign error, e.g. two positives adding to give a negative.',
+    'Multiplication: shift and add, like long multiplication.',
+    '<b>Two\'s complement</b>: the most significant bit has a negative value (−128 for 8 bits). Range for n bits: −2<sup>n−1</sup> to 2<sup>n−1</sup> − 1.',
+    'To negate a two\'s complement number: flip every bit and add 1.',
+    'Subtraction: add the negative of the second number.',
+    '<b>Fixed point</b>: the binary point is in a fixed position. Bits after the point are worth ½, ¼, ⅛, 1/16, … Some decimals (like 0.1) cannot be stored exactly.'
+  ],
+  teach:{ prompt:'Explain how two\'s complement represents negative numbers, and how you would write −20 in 8-bit two\'s complement.',
+    points:['The most significant bit has a negative place value (−128 in 8 bits)','All other bits have their normal positive values','If the MSB is 1 the number is negative','To make a negative: write the positive value, flip all bits, add 1','+20 = 00010100 → flip = 11101011 → add 1 = 11101100','Check: −128 + 64 + 32 + 8 + 4 = −20','Range for 8 bits is −128 to +127'],
+    model:'In two\'s complement, the most significant bit has a negative place value: for 8 bits it is worth −128, while the other bits keep their normal values (64, 32, … 1). So any number starting with 1 is negative. To write a negative number, start with the positive version, flip every bit, then add 1. For −20: +20 is 00010100. Flipping gives 11101011. Adding 1 gives 11101100. Check: −128 + 64 + 32 + 8 + 4 = −20. With 8 bits the range is −128 to +127.' },
+  qs:[
+    {t:'num', q:'What is the denary value of the 8-bit two\'s complement number 11101100?', a:-20,
+     e:'−128 + 64 + 32 + 8 + 4 = <b>−20</b>.'},
+    {t:'txt', q:'Write −45 as an 8-bit two\'s complement number.', a:['11010011'], mono:true,
+     e:'+45 = 00101101. Flip the bits: 11010010. Add 1: <b>11010011</b>.<br>Check: −128 + 64 + 16 + 2 + 1 = −45.'},
+    {t:'mcq', q:'What is the range of an 8-bit two\'s complement integer?', o:['−128 to +127','−127 to +128','0 to 255','−256 to +255'], a:0,
+     e:'−2<sup>7</sup> to 2<sup>7</sup> − 1 = −128 to +127. There is one more negative number because zero uses one of the "positive" patterns.'},
+    {t:'txt', q:'Add the unsigned 8-bit numbers 01011010 and 00110111. Give the 8-bit result.', a:['10010001'], mono:true,
+     e:'01011010 (90) + 00110111 (55) = <b>10010001</b> (145).<br>Check: 128 + 16 + 1 = 145.'},
+    {t:'mcq', q:'If 01011010 and 00110111 were 8-bit <i>two\'s complement</i> numbers, what would go wrong when you add them?', o:['Overflow: the answer 145 is bigger than +127, so the result looks negative','Underflow: the answer is too small','Nothing, the result is correct','A rounding error'], a:0,
+     e:'90 + 55 = 145, but the largest 8-bit two\'s complement value is +127. The result 10010001 has MSB 1, so it would be read as −111. Adding two positives and getting a negative is a sign of overflow.'},
+    {t:'num', q:'01101010 is an unsigned fixed point number with 4 bits before the binary point and 4 after (0110.1010). What is its denary value?', a:6.625,
+     e:'Before the point: 0110 = 6. After the point: 1010 = ½ + ⅛ = 0.625.<br>Total = <b>6.625</b>.'},
+    {t:'txt', q:'Write 3.75 as an unsigned fixed point number with 4 bits before and 4 bits after the binary point.', a:['0011.1100','00111100'], mono:true,
+     e:'3 = 0011. 0.75 = ½ + ¼ = .1100.<br>Answer <b>0011.1100</b>.'},
+    {t:'txt', q:'Multiply the unsigned binary numbers 0101 and 0011. Give the answer in binary.', a:['1111','00001111'], mono:true,
+     e:'0101 × 0011 = 0101 (× 1) + 01010 (× 10) = <b>1111</b>. Check: 5 × 3 = 15.'},
+    {t:'mcq', q:'Why can 0.1 (decimal) not be stored exactly in fixed point binary?', o:['It cannot be made from a finite sum of ½, ¼, ⅛, … so it recurs in binary','Fixed point cannot store any fractions','0.1 needs a negative exponent','Binary cannot represent numbers less than 1'], a:0,
+     e:'0.1 in binary is 0.000110011001100… which repeats forever. Any finite number of bits gives an approximation, which causes rounding errors.'},
+    {t:'num', q:'An unsigned 8-bit fixed point number has 5 bits before the point and 3 after. What is the largest value it can store?', a:31.875,
+     e:'11111.111 = 31 + ½ + ¼ + ⅛ = <b>31.875</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'cs-float', name:'Floating point', spec:'4.5.4.6 to 4.5.4.9',
+  recap:[
+    'Value = mantissa × 2<sup>exponent</sup>. On AQA papers both mantissa and exponent are two\'s complement, and the binary point sits after the first bit of the mantissa.',
+    '<b>Normalised</b>: a positive mantissa starts 0.1; a negative mantissa starts 1.0. This gives maximum precision and one unique way to write each number.',
+    'More mantissa bits → more precision. More exponent bits → bigger range. With a fixed total, it is a trade-off.',
+    'To normalise: move the binary point until the mantissa starts 01 or 10, and change the exponent to compensate.',
+    '<b>Overflow</b>: the number is too large to store. <b>Underflow</b>: the number is too close to zero to store.',
+    'Absolute error = |true value − stored value|. Relative error = absolute error ÷ true value.',
+    'Floating point gives a much bigger range than fixed point for the same bits; fixed point is simpler and faster to process.'
+  ],
+  teach:{ prompt:'Explain why floating point numbers are normalised, and the trade-off between the number of bits in the mantissa and in the exponent.',
+    points:['Normalised mantissa starts 0.1 (positive) or 1.0 (negative)','Normalising makes the most of the mantissa bits, so precision is as high as possible','It gives each number one unique representation','More mantissa bits means more precision','More exponent bits means a larger range','With a fixed number of bits, gaining one means losing the other'],
+    model:'A normalised floating point number has a mantissa starting 0.1 if positive or 1.0 if negative. Without this, leading 0s (or 1s) in the mantissa would waste bits that could hold significant digits. Normalising therefore gives the greatest possible precision for the bits available, and it also means each value has only one representation, which makes comparisons easier. The mantissa controls precision and the exponent controls range. If the total number of bits is fixed, giving more to the mantissa makes numbers more precise but reduces the range, and giving more to the exponent increases the range but reduces precision.' },
+  qs:[
+    {t:'num', q:'A floating point number has an 8-bit mantissa and a 4-bit exponent, both two\'s complement.<br>Mantissa <span class="mono">0.1010000</span>, exponent <span class="mono">0011</span>. What is its denary value?', a:5,
+     e:'Exponent 0011 = 3, so move the point 3 places right: 0.1010000 → 0101.0000.<br>0101 = <b>5</b>.'},
+    {t:'num', q:'Mantissa <span class="mono">0.1100000</span>, exponent <span class="mono">1110</span>. What is the denary value?', a:0.1875,
+     e:'Exponent 1110 = −8 + 4 + 2 = −2, so move the point 2 places left: 0.1100000 → 0.0011.<br>0.0011 = ⅛ + 1/16 = <b>0.1875</b>.'},
+    {t:'num', q:'Mantissa <span class="mono">1.0100000</span>, exponent <span class="mono">0010</span>. What is the denary value?', a:-3,
+     e:'The mantissa starts with 1, so it is negative: 1.01 = −1 + ¼ = −0.75.<br>Exponent 0010 = 2, so −0.75 × 2² = <b>−3</b>.<br>(Or move the point 2 right: 101.0 = −4 + 1 = −3.)'},
+    {t:'mcq', q:'Which of these 8-bit mantissas is normalised?', o:['0.1011000','0.0110000','1.1010000','0.0000001'], a:0,
+     e:'A normalised mantissa starts 0.1 (positive) or 1.0 (negative). 0.0110000 has a leading 0 that wastes a bit, and 1.1010000 starts 1.1, which is not normalised.'},
+    {t:'mcq', q:'With a fixed total number of bits, what is the effect of using more bits for the mantissa?', o:['Greater precision but a smaller range','Greater range but less precision','Greater range and greater precision','No effect on precision or range'], a:0,
+     e:'Mantissa bits store the significant digits, so more of them means more precision. Those bits come from the exponent, so the range shrinks.'},
+    {t:'mcq', q:'What is underflow?', o:['A number is too close to zero to be represented','A number is too large to be represented','A negative number is stored as positive','The mantissa is not normalised'], a:0,
+     e:'Underflow happens when a result is smaller in magnitude than the smallest non-zero value the format can store, so it gets stored as 0. Overflow is the "too large" case.'},
+    {t:'num', q:'The value 12.3 is stored as 12.25. What is the absolute error?', a:0.05,
+     e:'Absolute error = |12.3 − 12.25| = <b>0.05</b>.'},
+    {t:'num', q:'For the same value, what is the relative error as a percentage? Give 2 significant figures.', a:0.41, tol:0.03, unit:'%',
+     e:'Relative error = 0.05 ÷ 12.3 = 0.004065… = <b>0.41%</b>.'},
+    {t:'self', q:'Normalise this number: mantissa <span class="mono">0.0011000</span>, exponent <span class="mono">0101</span>. Give the new mantissa and exponent.',
+     e:'The mantissa must start 0.1, so shift it 2 places left: 0.0011000 → <b>0.1100000</b>.<br>Shifting the mantissa left multiplies it by 4, so subtract 2 from the exponent: 5 − 2 = 3 → <b>0011</b>.<br>Check: before 0.0011 × 2⁵ = 0.1875 × 32 = 6. After 0.11 × 2³ = 0.75 × 8 = 6.'},
+    {t:'txt', q:'Represent 6.5 as a normalised floating point number with an 8-bit mantissa and 4-bit exponent (both two\'s complement). Type the mantissa then the exponent, e.g. <span class="mono">01000000 0010</span>.', a:['01101000 0011','0.1101000 0011'], mono:true,
+     e:'6.5 = 110.1 in binary = 0.1101 × 2³.<br>Mantissa <b>0.1101000</b>, exponent 3 = <b>0011</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'cs-types', name:'Data types (numbers & strings)', spec:'4.1.1',
+  recap:[
+    'Data types: integer, real/float, Boolean, character, string, date/time, pointer/reference, records, arrays, user-defined.',
+    'Operations: + − × /, integer division (DIV), modulo (MOD, the remainder), exponentiation, rounding, truncation.',
+    'Truncation chops off the fractional part (9.99 → 9). Rounding goes to the nearest (9.99 → 10).',
+    'String handling: length, position, substring, concatenation, character → code, code → character, string ↔ integer/float conversion.',
+    'ASCII is 7-bit (128 characters). Unicode covers many more. \'A\' = 65, \'a\' = 97, \'0\' = 48.',
+    'The character \'5\', the string "5" and the integer 5 are different. Phone numbers are strings (leading zeros, no arithmetic).'
+  ],
+  teach:{ prompt:'Explain the difference between the character \'5\', the string "5" and the integer 5, and why choosing the right data type matters.',
+    points:['The integer 5 is a number you can do arithmetic with','The character \'5\' is a single symbol stored as a code (ASCII 53)','The string "5" is a sequence of characters that happens to have length 1','"5" + "5" concatenates to "55"; 5 + 5 adds to 10','You must convert (e.g. string to integer) before doing maths on input','The right type prevents errors, saves memory and allows the right operations'],
+    model:'The integer 5 is a number: you can add, multiply and compare it numerically, so 5 + 5 = 10. The character \'5\' is a single symbol, stored as its character code (53 in ASCII), not as the value 5. The string "5" is a sequence of characters that happens to contain one character. If you "add" strings you concatenate them, so "5" + "5" gives "55". User input usually arrives as a string, so you must convert it to an integer before doing arithmetic. Picking the right type matters because it decides which operations are allowed, how the data is stored, and it prevents bugs such as concatenating when you meant to add.' },
+  qs:[
+    {t:'num', q:'What is 17 DIV 5?', a:3,
+     e:'DIV is integer division: how many whole 5s fit into 17. Answer <b>3</b>.'},
+    {t:'num', q:'What is 17 MOD 5?', a:2,
+     e:'MOD gives the remainder: 17 = 3 × 5 + 2, so <b>2</b>.'},
+    {t:'mcq', q:'Which data type is best for storing a phone number such as 01392 123456?', o:['String','Integer','Real','Boolean'], a:0,
+     e:'An integer would lose the leading zero, and you never do arithmetic on a phone number. It may also contain spaces or a +. Use a string.'},
+    {t:'num', q:'What is the length of the string "Exeter"?', a:6,
+     e:'E-x-e-t-e-r is <b>6</b> characters.'},
+    {t:'txt', q:'Using zero-based indexing, which characters are at positions 2 to 4 (inclusive) of "COMPUTER"?', a:['MPU'], mono:true,
+     e:'C=0, O=1, M=2, P=3, U=4. So positions 2 to 4 give <b>MPU</b>.'},
+    {t:'num', q:'The ASCII code for \'A\' is 65. What is the ASCII code for \'C\'?', a:67,
+     e:'Letters are consecutive: A = 65, B = 66, C = <b>67</b>.'},
+    {t:'mcq', q:'What is the result of "12" + "34" when both values are strings?', o:['"1234"','46','"46"','An error in every language'], a:0,
+     e:'+ on two strings concatenates them, giving "1234". To get 46 you would convert both to integers first.'},
+    {t:'num', q:'What is the result of truncating 9.99 to an integer?', a:9,
+     e:'Truncation removes the fractional part without rounding: <b>9</b>. Rounding would give 10.'},
+    {t:'mcq', q:'Which data type is most suitable for storing whether a user is logged in?', o:['Boolean','String','Integer','Character'], a:0,
+     e:'There are only two states (logged in or not), so a Boolean (True/False) is the right choice.'},
+    {t:'mcq', q:'Which expression usually gives a real (float) result?', o:['7 / 2','7 DIV 2','7 MOD 2','2 + 7'], a:0,
+     e:'7 / 2 is real division, giving 3.5. DIV gives 3 and MOD gives 1, both integers.'},
+    {t:'num', q:'What is 2 ^ 5 (2 to the power 5)?', a:32,
+     e:'2 × 2 × 2 × 2 × 2 = <b>32</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'cs-sel', name:'Selection', spec:'4.1.1 (programming concepts)',
+  recap:[
+    'Selection chooses which code to run based on a condition: IF … THEN … ELSE IF … ELSE … ENDIF.',
+    'In an ELSE IF chain, only the <b>first</b> true branch runs, so the order of conditions matters.',
+    'Nested selection: an IF inside another IF.',
+    'CASE (switch) statements compare one value against many fixed options.',
+    'Relational operators: =, ≠, <, >, ≤, ≥. Boolean operators: AND, OR, NOT, XOR.',
+    'Test with normal, boundary and erroneous data. For IF age ≥ 18, the boundary values are 17 and 18.'
+  ],
+  teach:{ prompt:'Explain why the order of conditions matters in an IF … ELSE IF chain. Use a grade-boundary example.',
+    points:['Conditions are checked from the top down','Only the first true branch runs; the rest are skipped','If a wider condition comes first (e.g. mark ≥ 50), it catches values meant for later branches','Example: a mark of 75 would get a C if ≥ 50 is checked before ≥ 70','Put the most specific/highest boundary first','Test boundary values to catch ordering bugs'],
+    model:'In an IF … ELSE IF chain the conditions are checked from the top, and only the first one that is true runs; everything after it is skipped. So if a broad condition comes first it can catch values meant for a later branch. For example, if the code checks "mark ≥ 50 → C" before "mark ≥ 70 → A", a mark of 75 matches the first condition and gets a C, even though it should be an A. The fix is to check the highest boundary first (≥ 70, then ≥ 60, then ≥ 50). Testing with boundary values like 49, 50, 69 and 70 would expose this kind of bug.' },
+  qs:[
+    {t:'mcq', q:'What is the value of grade after this code runs?'+code(`mark ← 65
+IF mark ≥ 70 THEN
+   grade ← "A"
+ELSE IF mark ≥ 60 THEN
+   grade ← "B"
+ELSE IF mark ≥ 50 THEN
+   grade ← "C"
+ELSE
+   grade ← "U"
+ENDIF`), o:['"B"','"A"','"C"','"U"'], a:0,
+     e:'65 ≥ 70 is false. 65 ≥ 60 is true, so grade becomes "B" and the rest of the chain is skipped.'},
+    {t:'mcq', q:'A student reorders the chain so it checks mark ≥ 50 first, then mark ≥ 60, then mark ≥ 70. What happens to a mark of 75?', o:['It gets "C" because the first true condition wins','It gets "A" as before','It gets all three grades','The program crashes'], a:0,
+     e:'75 ≥ 50 is true, so the first branch runs and the rest are skipped. The highest boundary must be checked first.'},
+    {t:'mcq', q:'x = 7 and y = 3. What does this evaluate to?<br><span class="mono">(x > 5 AND y > 5) OR NOT (y = 3)</span>', o:['False','True'], a:0,
+     e:'x > 5 is True, y > 5 is False, so the AND is False. y = 3 is True, so NOT (y = 3) is False. False OR False = <b>False</b>.'},
+    {t:'mcq', q:'When is A XOR B true?', o:['When exactly one of A and B is true','When both are true','When at least one is true','When both are false'], a:0,
+     e:'XOR (exclusive OR) is true when the inputs differ. OR is true when at least one is true, including both.'},
+    {t:'mcq', q:'Which pair of test values best checks the boundary of IF age ≥ 18?', o:['17 and 18','10 and 50','18 only','0 and 100'], a:0,
+     e:'Boundary testing uses the values either side of the boundary. 17 should fail and 18 should pass. This catches mistakes like writing > instead of ≥.'},
+    {t:'mcq', q:'What is output?'+code(`a ← 4
+b ← 9
+IF a > b THEN
+   OUTPUT "X"
+ELSE IF b MOD a = 1 THEN
+   OUTPUT "Y"
+ELSE
+   OUTPUT "Z"
+ENDIF`), o:['Y','X','Z','Nothing'], a:0,
+     e:'4 > 9 is false. 9 MOD 4 = 1, so the second condition is true and "Y" is output.'},
+    {t:'mcq', q:'When is a CASE (switch) statement most appropriate?', o:['When comparing one variable against many specific values','When checking a range such as mark ≥ 70','When a loop needs to repeat','When combining two conditions with AND'], a:0,
+     e:'CASE is ideal for one variable with many fixed options (e.g. a menu choice 1, 2, 3, 4). Ranges and combined conditions are usually clearer with IF.'},
+    {t:'mcq', q:'Which expression is equivalent to NOT (a AND b)?', o:['(NOT a) OR (NOT b)','(NOT a) AND (NOT b)','a OR b','NOT a AND b'], a:0,
+     e:'This is De Morgan\'s law: break the bar and change the operator. You will see it again in Electronics.'},
+    {t:'self', q:'Write pseudocode that outputs "Leap year" or "Not a leap year" for a variable year. A year is a leap year if it is divisible by 4, except years divisible by 100, unless they are also divisible by 400.',
+     e:code(`IF (year MOD 4 = 0 AND year MOD 100 ≠ 0) OR year MOD 400 = 0 THEN
+   OUTPUT "Leap year"
+ELSE
+   OUTPUT "Not a leap year"
+ENDIF`)+'Test with 2024 (leap), 1900 (not leap) and 2000 (leap). A nested IF version is also fine if it gives the same results.'}
+  ]}
+]},
+// =====================================================================
+{ id:'elec', name:'Electronics', board:'Eduqas', spec:'A level Electronics · Combinational logic', topics:[
+// ---------------------------------------------------------------------
+{ id:'e-gates', name:'Logic gates & truth tables', spec:'Combinational logic systems',
+  recap:[
+    'AND: Q = A·B. OR: Q = A + B. NOT: Q = '+ov('A')+'.',
+    'NAND = NOT AND, NOR = NOT OR. XOR: Q = A ⊕ B, which is 1 when the inputs differ.',
+    'A truth table with n inputs has 2<sup>n</sup> rows.',
+    'NAND and NOR are <b>universal</b>: any logic function can be built from just one of them.',
+    'NOT from NAND: join both inputs together. AND from NAND: NAND followed by a NAND used as NOT (2 gates). OR from NAND: invert each input, then NAND (3 gates).',
+    'Write a Boolean expression from a word description by spotting the AND / OR / NOT conditions.'
+  ],
+  teach:{ prompt:'Explain why NAND gates are called universal gates, and show how to make NOT, AND and OR using only NAND gates.',
+    points:['Any logic function can be built from NAND gates alone','NOT: connect both inputs of one NAND together','AND: a NAND followed by a NAND wired as NOT (2 gates)','OR: NAND each input as a NOT, then NAND the results (3 gates)','The OR version works because of De Morgan: NOT('+ov('A')+'·'+ov('B')+') = A + B','Using one gate type means fewer different chips, which is cheaper and simpler'],
+    model:'NAND gates are universal because NOT, AND and OR, and therefore any logic function, can be built from them alone. For NOT, join both inputs of a NAND together: Q = NOT(A·A) = '+ov('A')+'. For AND, follow a NAND with a second NAND wired as a NOT, which undoes the inversion: 2 gates. For OR, invert A and B with two NAND-NOTs, then feed them into a third NAND: Q = NOT('+ov('A')+'·'+ov('B')+') = A + B by De Morgan\'s theorem. Designers like this because one type of chip can build a whole circuit, which reduces cost and the number of different parts.' },
+  qs:[
+    {t:'mcq', q:'What is the output of a NAND gate when A = 1 and B = 1?', o:['0','1'], a:0,
+     e:'AND gives 1, so NAND (NOT AND) gives <b>0</b>. This is the only input combination that makes a NAND output 0.'},
+    {t:'mcq', q:'Which gate gives an output of 1 only when its two inputs are different?', o:['XOR','OR','NAND','NOR'], a:0,
+     e:'XOR (exclusive OR): 0,0 → 0; 0,1 → 1; 1,0 → 1; 1,1 → 0.'},
+    {t:'num', q:'How many rows are there in the truth table of a 4-input logic system?', a:16,
+     e:'2<sup>4</sup> = <b>16</b>.'},
+    {t:'mcq', q:'A and B go into an AND gate. Its output and C go into a NOR gate. What is the output Q when A = 1, B = 1 and C = 0?', o:['0','1'], a:0,
+     e:'A·B = 1. Then NOR: NOT(1 + 0) = NOT(1) = <b>0</b>. Q = '+ov('A·B + C')+'.'},
+    {t:'mcq', q:'How do you make a NOT gate from a single NAND gate?', o:['Connect both inputs together','Connect one input to 0','Connect one input to the output','It cannot be done'], a:0,
+     e:'With both inputs joined, Q = NOT(A·A) = NOT(A). Connecting the spare input to 1 would also work, but connecting it to 0 would fix the output at 1.'},
+    {t:'mcq', q:'An alarm sounds when the door is open (D) and the system is armed (S), or when the panic button (P) is pressed. Which expression is correct?', o:['Q = D·S + P','Q = D + S·P','Q = (D + S)·P','Q = D·S·P'], a:0,
+     e:'"Door open AND armed" is D·S. "OR panic" adds + P. So Q = D·S + P.'},
+    {t:'num', q:'What is the minimum number of NAND gates needed to make an AND gate?', a:2,
+     e:'One NAND gives NOT(A·B). A second NAND wired as a NOT inverts it back to A·B. So <b>2</b>.'},
+    {t:'mcq', q:'When is the output of a 2-input NOR gate equal to 1?', o:['Only when both inputs are 0','When either input is 1','Only when both inputs are 1','When the inputs are different'], a:0,
+     e:'OR is 0 only when both inputs are 0, so NOR is 1 only in that case.'},
+    {t:'mcq', q:'Which expression is equivalent to A ⊕ B (XOR)?', o:['A·'+ov('B')+' + '+ov('A')+'·B','A·B + '+ov('A')+'·'+ov('B'),'A + B','A·B'], a:0,
+     e:'XOR is 1 when A is 1 and B is 0, or A is 0 and B is 1: A·'+ov('B')+' + '+ov('A')+'·B. The second option is XNOR (1 when inputs are the same).'},
+    {t:'num', q:'For Q = A + B·'+ov('C')+', how many of the 8 input combinations give Q = 1?', a:5,
+     e:'When A = 1: all 4 rows give Q = 1. When A = 0: Q = 1 only if B = 1 and C = 0, which is 1 more row. Total = <b>5</b>.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'e-bool', name:'Boolean identities & De Morgan', spec:'Combinational logic systems',
+  recap:[
+    'A·0 = 0; &nbsp; A·1 = A; &nbsp; A·A = A; &nbsp; A·'+ov('A')+' = 0',
+    'A + 0 = A; &nbsp; A + 1 = 1; &nbsp; A + A = A; &nbsp; A + '+ov('A')+' = 1',
+    ov(ov('A'))+' = A (double NOT cancels).',
+    'Commutative, associative, distributive: A·(B + C) = A·B + A·C.',
+    'Absorption: A + A·B = A and A·(A + B) = A. Also A + '+ov('A')+'·B = A + B.',
+    '<b>De Morgan</b>: '+ov('A·B')+' = '+ov('A')+' + '+ov('B')+' and '+ov('A + B')+' = '+ov('A')+'·'+ov('B')+'. "Break the bar, change the sign."'
+  ],
+  teach:{ prompt:'Explain De Morgan\'s theorem in your own words, and use it to show that a NOR gate is the same as an AND gate with both inputs inverted.',
+    points:['De Morgan: NOT(A·B) = '+ov('A')+' + '+ov('B'),'and NOT(A + B) = '+ov('A')+'·'+ov('B'),'Rule of thumb: break the bar and change the sign (· ↔ +)','NOR is Q = NOT(A + B)','Applying De Morgan gives Q = '+ov('A')+'·'+ov('B'),'That is an AND gate with each input inverted first','You can check it with a truth table'],
+    model:'De Morgan\'s theorem says that inverting an AND is the same as ORing the inverted inputs, and inverting an OR is the same as ANDing the inverted inputs: NOT(A·B) = '+ov('A')+' + '+ov('B')+' and NOT(A + B) = '+ov('A')+'·'+ov('B')+'. The shortcut is "break the bar, change the sign". A NOR gate gives Q = NOT(A + B). Breaking the bar and changing + to · gives Q = '+ov('A')+'·'+ov('B')+', which is an AND gate with both inputs passed through NOT gates first. A truth table confirms it: both give 1 only when A = 0 and B = 0.' },
+  qs:[
+    {t:'mcq', q:'Simplify A + A·B.', o:['A','B','A·B','A + B'], a:0,
+     e:'Factorise: A·(1 + B) = A·1 = <b>A</b>. (Absorption law.)'},
+    {t:'mcq', q:'Simplify A·(A + B).', o:['A','A·B','A + B','B'], a:0,
+     e:'Expand: A·A + A·B = A + A·B = A·(1 + B) = <b>A</b>.'},
+    {t:'mcq', q:'What is A + '+ov('A')+'?', o:['1','0','A','2A'], a:0,
+     e:'Either A or NOT A is always 1, so the OR is always <b>1</b>.'},
+    {t:'mcq', q:'Use De Morgan\'s theorem to rewrite '+ov('A + B')+'.', o:[ov('A')+'·'+ov('B'),ov('A')+' + '+ov('B'),'A·B',ov('A·B')], a:0,
+     e:'Break the bar and change + to ·: '+ov('A')+'·'+ov('B')+'.'},
+    {t:'mcq', q:'Simplify A·B + A·'+ov('B')+'.', o:['A','B','1','A·B'], a:0,
+     e:'Factorise: A·(B + '+ov('B')+') = A·1 = <b>A</b>.'},
+    {t:'mcq', q:'Simplify A + '+ov('A')+'·B.', o:['A + B','A·B','B','A'], a:0,
+     e:'This is a standard identity: A + '+ov('A')+'·B = A + B. Check with a truth table: it is 0 only when A = 0 and B = 0, just like A + B.'},
+    {t:'mcq', q:'Simplify '+ov(ov('A')+'·'+ov('B'))+'.', o:['A + B','A·B',ov('A')+' + '+ov('B'),ov('A + B')], a:0,
+     e:'De Morgan: break the outer bar and change · to +, giving '+ov(ov('A'))+' + '+ov(ov('B'))+'. Double NOTs cancel: <b>A + B</b>.'},
+    {t:'self', q:'Simplify Q = A·B·C + A·B·'+ov('C')+' + '+ov('A')+'·B. Show each step and the identity you used.',
+     e:'A·B·C + A·B·'+ov('C')+' = A·B·(C + '+ov('C')+') = A·B·1 = A·B.<br>So Q = A·B + '+ov('A')+'·B = B·(A + '+ov('A')+') = B·1 = <b>B</b>.'},
+    {t:'mcq', q:'Which of these identities is <b>false</b>?', o:['A + 1 = A','A·1 = A','A + 0 = A','A·0 = 0'], a:0,
+     e:'A + 1 = 1, not A: if one input of an OR is 1, the output is always 1.'},
+    {t:'mcq', q:'Simplify '+ov('A·'+ov('B'))+'.', o:[ov('A')+' + B',ov('A')+'·B','A + '+ov('B'),'A·B'], a:0,
+     e:'De Morgan: '+ov('A')+' + '+ov(ov('B'))+' = '+ov('A')+' + B.'}
+  ]},
+// ---------------------------------------------------------------------
+{ id:'e-kmap', name:'Karnaugh maps', spec:'Combinational logic systems',
+  recap:[
+    'A Karnaugh map is a grid version of a truth table. Rows and columns are in <b>Gray code</b> order (00, 01, 11, 10), so neighbouring cells differ by one variable.',
+    'Put a 1 in each cell where the output is 1.',
+    'Group 1s in rectangles whose size is a power of 2 (1, 2, 4, 8, or 16 on a 4-variable map). Make groups as large as possible and use as few as possible. Groups may overlap.',
+    'Groups can wrap around the edges, and the four corners can form one group.',
+    'For each group, keep only the variables that do not change. Bigger groups give shorter terms.',
+    'OR the terms together to get a simplified sum-of-products expression.',
+    'Don\'t care (X) cells can be treated as 1 or 0, whichever makes bigger groups.'
+  ],
+  teach:{ prompt:'Explain the rules for grouping on a Karnaugh map, and how to read a simplified expression from one group.',
+    points:['Rows/columns are in Gray code so neighbours differ by one variable','Groups must be rectangles whose size is a power of 2 (1, 2, 4, 8, 16)','Only group 1s (and don\'t cares if useful), never 0s','Make groups as large as possible and as few as possible; overlaps are allowed','Groups can wrap around edges and corners','In a group, a variable that changes is dropped; one that stays the same is kept (as A or '+ov('A')+')','OR all the group terms together'],
+    model:'The rows and columns of a Karnaugh map are in Gray code order, so any two neighbouring cells differ by only one variable. You circle the 1s in rectangular groups whose size is a power of 2 (1, 2, 4, 8 or 16 cells). Groups should be as large as possible, and you want as few groups as possible, but they can overlap and can wrap around the edges, including the four corners. To read a group, look at each variable: if it changes within the group, it is eliminated; if it stays at 1, keep it as A; if it stays at 0, keep it as '+ov('A')+'. Each group gives one AND term, and you OR the terms together for the final expression.' },
+  qs:[
+    {t:'mcq', q:'Why are Karnaugh map columns ordered 00, 01, 11, 10 rather than 00, 01, 10, 11?', o:['So that neighbouring cells differ by only one variable (Gray code)','To match the binary counting order','To make the map symmetrical','So that 0s and 1s alternate'], a:0,
+     e:'Gray code makes adjacent cells differ in one variable. That is what lets a group eliminate the variable that changes.'},
+    {t:'mcq', q:'Which group sizes are allowed on a 3-variable Karnaugh map?', o:['1, 2, 4, 8','1, 2, 3, 4','2, 4, 6, 8','Any size'], a:0,
+     e:'Groups must be rectangular and a power of 2 in size. A 3-variable map has 8 cells, so the largest group is 8 (on a 4-variable map it is 16).'},
+    {t:'mcq', q:'Find the simplified expression for Q.'+kmap2(['0','0'],['1','1']), o:['Q = A','Q = B','Q = A·B','Q = A + B'], a:0,
+     e:'The two 1s are in row A = 1. B changes (0 and 1) so it drops out. <b>Q = A</b>.'},
+    {t:'mcq', q:'Find the simplified expression for Q.'+kmap3(['0','1','1','0'],['0','1','1','0']), o:['Q = C','Q = B','Q = A·C','Q = B·C'], a:0,
+     e:'The four 1s form one group in columns 01 and 11. A changes, B changes, C = 1 throughout. <b>Q = C</b>.'},
+    {t:'mcq', q:'Find the simplified expression for Q.'+kmap3(['1','0','0','1'],['1','0','0','1']), o:['Q = '+ov('C'),'Q = '+ov('B'),'Q = C','Q = '+ov('A')+'·'+ov('C')], a:0,
+     e:'The outer columns (00 and 10) are neighbours because the map wraps around. These four cells form one group. A changes, B changes, C = 0 throughout: <b>Q = '+ov('C')+'</b>.'},
+    {t:'mcq', q:'In a 4-variable Karnaugh map, how many variables are left in the term from a group of 4 cells?', o:['2','1','3','4'], a:0,
+     e:'Each doubling of the group removes one variable. 4 cells = 2² removes 2 of the 4 variables, leaving <b>2</b>.'},
+    {t:'mcq', q:'Find the minimal expression for Q.'+kmap3(['0','1','1','0'],['0','0','1','1']), o:['Q = '+ov('A')+'·C + A·B','Q = '+ov('A')+'·C + A·B + B·C','Q = C + A·B','Q = '+ov('A')+'·'+ov('B')+'·C + A·B'], a:0,
+     e:'Group 1: row A = 0, columns 01 and 11 → '+ov('A')+'·C. Group 2: row A = 1, columns 11 and 10 → A·B. Every 1 is now covered.<br>A group for B·C (column 11) is possible, but all its cells are already covered, so it is redundant. Minimal answer: <b>'+ov('A')+'·C + A·B</b>.'},
+    {t:'mcq', q:'What is a "don\'t care" (X) condition?', o:['An input combination that never happens or whose output does not matter, so it can be treated as 0 or 1','A cell that must always be grouped','A cell that must always be left out of groups','An error in the truth table'], a:0,
+     e:'Because the output does not matter, you include an X in a group only if it makes the group bigger. Otherwise leave it out.'},
+    {t:'mcq', q:'Why should Karnaugh map groups be as large as possible?', o:['Each term then has fewer variables, so the circuit needs fewer gates','Large groups are easier to draw','The expression has more terms, which is more accurate','It is a rule of Gray code'], a:0,
+     e:'A bigger group eliminates more variables, giving a simpler term and a cheaper circuit with fewer gates and inputs.'},
+    {t:'num', q:'In a 4-variable map, a group of 8 cells gives a term with how many variables?', a:1,
+     e:'8 = 2³, so 3 variables are eliminated, leaving <b>1</b>.'}
+  ]}
+]}
+];
+
+if (typeof module !== 'undefined') module.exports = { SUBJECTS };
+
+</script>
+<script>
+(() => {
+'use strict';
+// ---------- storage (this browser only) ----------
+const KEY = 'y12revlab.v1';
+let store = { topics:{}, qs:{} };
+try { const raw = localStorage.getItem(KEY); if (raw) store = Object.assign(store, JSON.parse(raw)); } catch(e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e) {} };
+
+// ---------- index ----------
+const TOPICS = {}; const QBANK = {};
+SUBJECTS.forEach(s => s.topics.forEach(t => {
+  t.subject = s; TOPICS[t.id] = t;
+  t.qs.forEach((q, i) => { q.id = t.id + '-' + (i+1); q.topic = t; QBANK[q.id] = q; });
+}));
+
+const $ = (sel, el=document) => el.querySelector(sel);
+const app = $('#app');
+const DAY = 86400000;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const colorVars = s => `--c:var(--${s.id});--c-soft:var(--${s.id}-soft)`;
+
+function ago(ts){ if(!ts) return 'Not started'; const d=Math.floor((Date.now()-ts)/DAY); return d<=0?'Practised today':d===1?'Practised yesterday':`Practised ${d} days ago`; }
+// Spacing: weaker topics come back sooner.
+function interval(best){ return best < 60 ? 1 : best < 85 ? 3 : 7; }
+function status(t){
+  const st = store.topics[t.id];
+  if (!st || !st.last) return {cls:'new', label:'New'};
+  const days = (Date.now() - st.last) / DAY;
+  if (days >= interval(st.lastScore ?? st.best ?? 0)) return {cls:'due', label:'Due for review'};
+  return {cls:'ok', label:'Up to date'};
+}
+
+// ---------- answer checking ----------
+function parseNum(raw){
+  let s = String(raw).trim().replace(/[−–]/g,'-').replace(/\s|,/g,'');
+  s = s.replace(/[x×*]10\^?/i,'e').replace(/e\(?([-+]?\d+)\)?/i,'e$1');
+  const fr = s.match(/^(-?\d*\.?\d+)\/(-?\d*\.?\d+)$/);
+  if (fr) return parseFloat(fr[1]) / parseFloat(fr[2]);
+  const m = s.match(/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?/i);
+  return m ? parseFloat(m[0]) : NaN;
+}
+const normTxt = s => String(s).toLowerCase().replace(/[−–]/g,'-').replace(/[\s()]/g,'');
+function isCorrect(q, val){
+  if (q.t === 'num'){
+    const x = parseNum(val); if (isNaN(x)) return false;
+    if (q.tol) return Math.abs(x - q.a) <= q.tol * Math.abs(q.a) + 1e-12;
+    if (Number.isInteger(q.a)) return Math.abs(x - q.a) < 1e-9;
+    return Math.abs(x - q.a) <= 0.01 * Math.abs(q.a);
+  }
+  if (q.t === 'txt') return q.a.some(a => normTxt(a) === normTxt(val));
+  return false;
+}
+
+// ---------- session state ----------
+let S = null; // current quiz session
+
+function record(q, correct, conf){
+  const s = store.qs[q.id] || (store.qs[q.id] = {r:0, w:0, cw:0});
+  if (correct) s.r++; else { s.w++; if (conf === 2) s.cw++; }
+  s.last = Date.now(); save();
+}
+
+// ---------- views ----------
+function home(){
+  S = null;
+  const due = []; SUBJECTS.forEach(s => s.topics.forEach(t => { if (status(t).cls === 'due') due.push(t); }));
+  app.innerHTML = `
+  <header class="top">
+    <div class="brand"><div class="eyebrow">AQA · Edexcel · Eduqas</div><h1>Year 12 Revision Lab</h1></div>
+    <button class="btn primary" id="mix">Mixed review</button>
+  </header>
+  <section class="how" aria-label="How to use this">
+    <div><b>Test first</b><span>Try the questions before reading the recap. Getting it wrong first helps it stick.</span></div>
+    <div><b>Rate your confidence</b><span>Be honest. "Certain but wrong" shows you exactly what to fix.</span></div>
+    <div><b>Come back later</b><span>Short, spaced sessions beat cramming. Topics show "Due" when it's time.</span></div>
+  </section>
+  ${due.length ? `<div class="due"><strong>Due for review</strong>${due.map(t=>`<button class="btn sm" data-quiz="${t.id}" style="${colorVars(t.subject)}">${esc(t.name)}</button>`).join('')}</div>` : ''}
+  ${SUBJECTS.map(s => `
+    <section class="subject" style="${colorVars(s)}">
+      <div class="subject-head"><h2>${s.name}</h2><span class="board">${s.board} · ${esc(s.spec)}</span></div>
+      ${s.topics.map(t => { const st = store.topics[t.id] || {}; const stt = status(t); const best = st.best ?? 0; return `
+        <div class="topic">
+          <div class="meta">
+            <div class="name">${esc(t.name)}</div>
+            <div class="sub"><span>${t.qs.length} questions</span>
+              <span title="Best score"><span class="bar"><i style="width:${best}%"></i></span> ${st.last ? best+'%' : ''}</span>
+              <span>${ago(st.last)}</span><span class="pill ${stt.cls}">${stt.label}</span>
+              ${st.teach ? `<span>Teach it back ${st.teach}%</span>` : ''}</div>
+          </div>
+          <div class="acts"><button class="btn go" data-quiz="${t.id}">Quiz</button><button class="btn" data-teach="${t.id}">Teach it back</button></div>
+        </div>`; }).join('')}
+    </section>`).join('')}
+  <details class="ai"><summary>Using an AI tutor when you're stuck</summary>
+    <div class="in">
+      <p class="small">If a topic still doesn't click, you can paste this into an AI chatbot. It's set up to make you do the thinking rather than hand you answers.</p>
+      <pre id="tutor">You are an upbeat, encouraging tutor helping a UK Year 12 student revising for A level. Ask one question at a time. First ask which topic and exam board I'm studying, and wait. Then ask what I already know about it, and wait. Explain using examples and analogies pitched at A level. Don't give me answers to problems straight away: ask leading questions and get me to explain my thinking. If I'm stuck, give a hint or ask me to do part of the problem. When I seem to understand, ask me to explain the idea in my own words or give an example. End your replies with a question so I keep thinking.</pre>
+      <div class="row"><button class="btn sm" id="copy">Copy prompt</button><span class="small" id="copied" role="status"></span></div>
+      <ul><li><b>It can be confidently wrong.</b> Check anything important against your notes or textbook.</li>
+      <li><b>You're in charge.</b> If it goes off track, tell it to move on or start again.</li>
+      <li><b>Don't share personal details.</b></li></ul>
+    </div></details>
+  <footer><span>Progress is saved in this browser only.</span>
+    <span class="confirm" id="resetwrap"><button class="btn ghost sm" id="reset">Reset my progress</button></span></footer>`;
+  $('#mix').onclick = () => startMixed();
+  app.querySelectorAll('[data-quiz]').forEach(b => b.onclick = () => startTopic(b.dataset.quiz));
+  app.querySelectorAll('[data-teach]').forEach(b => b.onclick = () => teach(b.dataset.teach));
+  $('#copy').onclick = () => {
+    const txt = $('#tutor').textContent;
+    const ok = () => $('#copied').textContent = 'Copied';
+    const fail = () => { const r = document.createRange(); r.selectNodeContents($('#tutor')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); $('#copied').textContent = 'Selected: press Ctrl+C (or Cmd+C) to copy'; };
+    try { navigator.clipboard.writeText(txt).then(ok, fail); } catch(e) { fail(); }
+  };
+  $('#reset').onclick = () => {
+    $('#resetwrap').innerHTML = `<span>Clear all scores?</span><button class="btn sm" id="yes">Yes, clear</button><button class="btn ghost sm" id="no">Cancel</button>`;
+    $('#yes').onclick = () => { store = {topics:{}, qs:{}}; save(); home(); };
+    $('#no').onclick = () => home();
+  };
+  window.scrollTo(0,0);
+}
+
+function startTopic(tid){
+  const t = TOPICS[tid];
+  S = { mode:'topic', topic:t, list: t.qs.slice(), i:0, results:[] };
+  question();
+}
+
+function startMixed(){
+  // Distributed practice: weight towards questions got wrong, topics not seen for a while, and topics already started.
+  const now = Date.now();
+  const pool = Object.values(QBANK).map(q => {
+    const s = store.qs[q.id]; const ts = store.topics[q.topic.id];
+    let w = 1;
+    if (ts && ts.last) w += Math.min(4, (now - ts.last) / DAY) * 0.5 + 1;
+    if (s) { w += s.w * 2 + s.cw * 2 - s.r * 0.6; w += Math.min(3, (now - (s.last||0)) / DAY) * 0.4; }
+    return { q, w: Math.max(0.3, w) * Math.random() };
+  }).sort((a,b) => b.w - a.w);
+  // limit to 2 per topic so the mix is wide
+  const per = {}; const list = [];
+  for (const p of pool){ const k = p.q.topic.id; if ((per[k]||0) >= 2) continue; per[k] = (per[k]||0) + 1; list.push(p.q); if (list.length === 12) break; }
+  S = { mode:'mixed', topic:null, list: shuffle(list), i:0, results:[] };
+  question();
+}
+
+function crumb(q){
+  const t = q.topic, s = t.subject;
+  return `<div class="crumb" style="${colorVars(s)}"><button class="btn ghost sm" id="back">← All topics</button>
+    <span class="tag">${s.name}</span><span>${esc(t.name)}</span>${S.mode==='mixed'?'<span class="pill new">Mixed review</span>':''}</div>`;
+}
+
+function question(){
+  const q = S.list[S.i]; const t = q.topic; const s = t.subject;
+  const letters = 'ABCDEF';
+  let opts = null;
+  if (q.t === 'mcq') opts = shuffle(q.o.map((html, idx) => ({html, idx})));
+  S.cur = { q, opts, choice:null, conf:null, done:false };
+  const prog = S.list.map((_, k) => { const r = S.results[k]; return `<i class="${r ? (r.correct ? 'r':'w') : k===S.i ? 'cur' : ''}"></i>`; }).join('');
+
+  let input = '';
+  if (q.t === 'mcq') input = `<div class="opts" role="group" aria-label="Options">${opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${letters[k]}</span><span>${o.html}</span></button>`).join('')}</div>`;
+  if (q.t === 'num') input = `<label for="ans" class="small">Your answer${q.unit ? ` (${esc(q.unit)})` : ''}</label>
+     <input id="ans" class="field" inputmode="text" autocomplete="off" placeholder="e.g. 3.2e-19 or 3.2x10^-19">
+     <div class="hint">Standard form can be typed as 3.2e-19 or 3.2x10^-19. Fractions like 4/3 are fine.</div>`;
+  if (q.t === 'txt') input = `<label for="ans" class="small">Your answer</label><input id="ans" class="field ${q.mono?'mono':''}" autocomplete="off" spellcheck="false">`;
+  if (q.t === 'self') input = `<label for="ans" class="small">Your working (optional, but writing it out is the point)</label><textarea id="ans" class="field"></textarea>`;
+
+  app.innerHTML = `${crumb(q)}
+    ${S.mode==='topic' ? recapBlock(t) : ''}
+    <article class="card" style="${colorVars(s)}">
+      <div class="progress" aria-hidden="true">${prog}</div>
+      <div class="qnum">Question ${S.i+1} of ${S.list.length}</div>
+      <div class="qtext">${q.q}</div>
+      ${input}
+      <div class="conf"><p id="clab">How confident are you?</p>
+        <div class="chips" role="group" aria-labelledby="clab">
+          <button class="chip" data-c="0" aria-pressed="false">Guessing</button>
+          <button class="chip" data-c="1" aria-pressed="false">Fairly sure</button>
+          <button class="chip" data-c="2" aria-pressed="false">Certain</button>
+        </div></div>
+      <div class="actions"><button class="btn primary" id="check" disabled>${q.t==='self' ? 'Show worked solution' : 'Check answer'}</button>
+        <button class="btn ghost sm" id="skip">I don't know, show me</button></div>
+      <div id="fb"></div>
+    </article>`;
+  $('#back').onclick = home;
+
+  const ans = $('#ans');
+  const ready = () => {
+    const hasAns = q.t === 'mcq' ? S.cur.choice !== null : q.t === 'self' ? true : ans.value.trim() !== '';
+    $('#check').disabled = !(hasAns && S.cur.conf !== null) || S.cur.done;
+  };
+  if (q.t === 'mcq') app.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    if (S.cur.done) return;
+    app.querySelectorAll('.opt').forEach(x => x.classList.remove('sel'));
+    b.classList.add('sel'); S.cur.choice = +b.dataset.k; ready();
+  });
+  if (ans){ ans.oninput = ready; ans.onkeydown = e => { if (e.key === 'Enter' && q.t !== 'self' && !$('#check').disabled) check(); }; setTimeout(()=>ans.focus({preventScroll:true}),0); }
+  app.querySelectorAll('.chip').forEach(c => c.onclick = () => {
+    if (S.cur.done) return;
+    app.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed','false'));
+    c.setAttribute('aria-pressed','true'); S.cur.conf = +c.dataset.c; ready();
+  });
+  $('#check').onclick = check;
+  $('#skip').onclick = () => { S.cur.conf = 0; finish(false, true); };
+  window.scrollTo(0,0);
+}
+
+function recapBlock(t){
+  return `<details class="recap" style="${colorVars(t.subject)}"><summary>Quick recap <small>(try the questions first)</small></summary>
+    <ul>${t.recap.map(r=>`<li>${r}</li>`).join('')}</ul></details>`;
+}
+
+function check(){
+  const { q } = S.cur;
+  if (q.t === 'self') return selfMark();
+  let correct;
+  if (q.t === 'mcq') correct = S.cur.opts[S.cur.choice].idx === q.a;
+  else correct = isCorrect(q, $('#ans').value);
+  finish(correct, false);
+}
+
+function selfMark(){
+  S.cur.done = true; lock();
+  $('#fb').innerHTML = `<div class="feedback neutral"><div class="verdict">Worked solution</div><div>${S.cur.q.e}</div>
+    <div class="actions"><button class="btn" id="gotit">I got it right</button><button class="btn" id="missed">I got it wrong</button></div></div>`;
+  $('#gotit').onclick = () => { $('#fb').innerHTML = ''; finish(true, false, true); };
+  $('#missed').onclick = () => { $('#fb').innerHTML = ''; finish(false, false, true); };
+}
+
+function lock(){
+  app.querySelectorAll('.opt,.chip').forEach(b => b.disabled = true);
+  const a = $('#ans'); if (a) a.readOnly = true;
+  $('#check').disabled = true; $('#skip').hidden = true;
+}
+
+function finish(correct, skipped, selfMarked){
+  const { q, conf } = S.cur; S.cur.done = true; lock();
+  if (q.t === 'mcq'){
+    app.querySelectorAll('.opt').forEach((b,k) => { const o = S.cur.opts[k]; if (o.idx === q.a) b.classList.add('right'); else if (k === S.cur.choice) b.classList.add('wrong'); });
+  }
+  record(q, correct, conf);
+  S.results[S.i] = { q, correct, conf: skipped ? -1 : conf };
+  let note = '';
+  if (!correct && conf === 2) note = 'You were certain but this was wrong. That is the most useful kind of mistake to find, so it goes on your "fix first" list.';
+  else if (correct && conf === 0) note = 'Right, but you were guessing. Have another look at the explanation so it\'s knowledge next time, not luck.';
+  const correctAns = q.t === 'num' ? `<div>Answer: <b>${fmt(q.a)}${q.unit ? ' ' + esc(q.unit) : ''}</b></div>` : q.t === 'txt' ? `<div>Answer: <b class="mono">${esc(q.a[0])}</b></div>` : '';
+  const verdict = skipped ? 'Here\'s how to do it' : correct ? 'Correct' : 'Not quite';
+  const cls = skipped ? 'neutral' : correct ? 'ok' : 'no';
+  const last = S.i === S.list.length - 1;
+  $('#fb').innerHTML = `<div class="feedback ${cls}" role="status"><div class="verdict">${verdict}</div>
+     ${!correct && !selfMarked ? correctAns : ''}<div>${selfMarked ? '' : q.e}</div>${note ? `<div class="note">${note}</div>` : ''}</div>
+     <div class="actions"><button class="btn primary" id="next">${last ? 'See results' : 'Next question'}</button></div>`;
+  $('#next').onclick = () => { if (last) summary(); else { S.i++; question(); } };
+  $('#next').focus({preventScroll:true});
+}
+
+function fmt(n){
+  if (Math.abs(n) >= 1e5 && Number.isInteger(n)) return n.toLocaleString('en-GB');
+  if (n !== 0 && (Math.abs(n) < 1e-3 || Math.abs(n) >= 1e5)) { const [m, e] = n.toExponential(2).split('e'); return `${m} × 10<sup>${+e}</sup>`; }
+  return String(+n.toPrecision(4));
+}
+
+function summary(){
+  const R = S.results; const n = R.length; const right = R.filter(r => r.correct).length; const pct = Math.round(100 * right / n);
+  const now = Date.now();
+  // update topic stats
+  const byTopic = {};
+  R.forEach(r => { const k = r.q.topic.id; (byTopic[k] = byTopic[k] || {r:0,n:0}); byTopic[k].n++; if (r.correct) byTopic[k].r++; });
+  Object.entries(byTopic).forEach(([k, v]) => {
+    const ts = store.topics[k] || (store.topics[k] = {});
+    const p = Math.round(100 * v.r / v.n);
+    ts.last = now; ts.lastScore = p;
+    if (S.mode === 'topic') { ts.best = Math.max(ts.best || 0, p); ts.attempts = (ts.attempts || 0) + 1; }
+    else if (ts.best === undefined) ts.best = p;
+  });
+  save();
+  const fixFirst = R.filter(r => !r.correct && r.conf === 2);
+  const wrong = R.filter(r => !r.correct && r.conf !== 2);
+  const lucky = R.filter(r => r.correct && r.conf === 0);
+  const solid = R.filter(r => r.correct && r.conf === 2).length;
+  const item = r => `<li>${strip(r.q.q)}<span class="t">${r.q.topic.subject.name} · ${esc(r.q.topic.name)}</span></li>`;
+  const t = S.topic; const s = t ? t.subject : null;
+  const weakest = Object.entries(byTopic).map(([k,v]) => ({t:TOPICS[k], p:v.r/v.n})).sort((a,b)=>a.p-b.p)[0];
+  app.innerHTML = `<div class="crumb" ${s?`style="${colorVars(s)}"`:''}><button class="btn ghost sm" id="back">← All topics</button>
+      ${s ? `<span class="tag">${s.name}</span><span>${esc(t.name)}</span>` : '<span class="tag">Mixed review</span>'}</div>
+    <article class="card" style="${s ? colorVars(s) : '--c:var(--ink)'}">
+      <h2>Session results</h2>
+      <div class="score"><span class="big">${right}/${n}</span><span>${pct}% · ${solid} answered correctly and with certainty</span></div>
+      ${fixFirst.length ? `<div class="group"><h3><span class="dot" style="background:var(--bad)"></span>Fix first: certain but wrong</h3><ul>${fixFirst.map(item).join('')}</ul></div>` : ''}
+      ${wrong.length ? `<div class="group"><h3><span class="dot" style="background:var(--warn)"></span>Still to learn</h3><ul>${wrong.map(item).join('')}</ul></div>` : ''}
+      ${lucky.length ? `<div class="group"><h3><span class="dot" style="background:var(--muted)"></span>Right, but guessed</h3><ul>${lucky.map(item).join('')}</ul></div>` : ''}
+      ${!fixFirst.length && !wrong.length && !lucky.length ? `<p>Everything right and no guessing. Next step: explain it out loud with Teach it back, then come back in a few days.</p>` : ''}
+      <p class="small" style="margin-top:18px">Next review suggested in ${interval(pct)} day${interval(pct)>1?'s':''}. Spacing it out is what makes it stick.</p>
+      <div class="actions">
+        ${(fixFirst.length + wrong.length) ? `<button class="btn primary" id="retry">Retry the ones I missed</button>` : ''}
+        ${t ? `<button class="btn" id="tb">Teach it back</button>` : weakest ? `<button class="btn" id="tb">Teach it back: ${esc(weakest.t.name)}</button>` : ''}
+        <button class="btn" id="home2">Back to topics</button>
+      </div>
+    </article>`;
+  $('#back').onclick = home; $('#home2').onclick = home;
+  const tb = $('#tb'); if (tb) tb.onclick = () => teach(t ? t.id : weakest.t.id);
+  const rt = $('#retry'); if (rt) rt.onclick = () => { const list = R.filter(r => !r.correct).map(r => r.q); S = { mode:S.mode, topic:S.topic, list: shuffle(list), i:0, results:[] }; question(); };
+  window.scrollTo(0,0);
+}
+const strip = h => { const d = document.createElement('div'); d.innerHTML = h; d.querySelectorAll('pre,.tbl,small,br').forEach(x => x.remove()); return d.innerHTML.trim(); };
+
+function teach(tid){
+  const t = TOPICS[tid]; const s = t.subject; S = null;
+  app.innerHTML = `<div class="crumb" style="${colorVars(s)}"><button class="btn ghost sm" id="back">← All topics</button><span class="tag">${s.name}</span><span>${esc(t.name)}</span><span class="pill new">Teach it back</span></div>
+    <article class="card" style="${colorVars(s)}">
+      <div class="qnum">Teach it back</div>
+      <div class="qtext">${t.teach.prompt}</div>
+      <p class="small" style="margin-bottom:10px">Write it as if you're explaining to a friend who missed the lesson. No notes. Saying it out loud first can help.</p>
+      <label for="ans" class="small">Your explanation</label>
+      <textarea id="ans" class="field" style="min-height:180px"></textarea>
+      <div class="actions"><button class="btn primary" id="cmp" disabled>Compare with the checklist</button></div>
+      <div id="fb"></div>
+    </article>`;
+  $('#back').onclick = home;
+  const ans = $('#ans');
+  ans.oninput = () => $('#cmp').disabled = ans.value.trim().length < 20;
+  $('#cmp').onclick = () => {
+    ans.readOnly = true; $('#cmp').hidden = true;
+    $('#fb').innerHTML = `<div class="feedback neutral" style="margin-top:18px"><div class="verdict">Tick each point your explanation covered</div>
+      <div class="checklist">${t.teach.points.map((p,k)=>`<label><input type="checkbox" id="pt${k}"><span>${p}</span></label>`).join('')}</div>
+      <details class="model"><summary>Show a model explanation</summary><p>${t.teach.model}</p></details>
+      <div class="actions"><button class="btn primary" id="done">Save and finish</button><span class="small" id="tally"></span></div></div>`;
+    const boxes = [...app.querySelectorAll('.checklist input')];
+    const tally = () => $('#tally').textContent = `${boxes.filter(b=>b.checked).length} of ${boxes.length} covered`;
+    boxes.forEach(b => b.onchange = tally); tally();
+    $('#done').onclick = () => {
+      const p = Math.round(100 * boxes.filter(b=>b.checked).length / boxes.length);
+      const ts = store.topics[t.id] || (store.topics[t.id] = {}); ts.teach = p; save();
+      const missed = t.teach.points.filter((_,k)=>!boxes[k].checked);
+      $('#fb').innerHTML = `<div class="feedback ${p>=80?'ok':'neutral'}" style="margin-top:18px"><div class="verdict">${p}% of the key points</div>
+        ${missed.length ? `<p>Points to add next time:</p><ul>${missed.map(m=>`<li>${m}</li>`).join('')}</ul>` : '<p>You covered every point. That is real understanding, not just recognition.</p>'}
+        <div class="actions"><button class="btn primary" id="q2">Quiz this topic</button><button class="btn" id="h2">Back to topics</button></div></div>`;
+      $('#q2').onclick = () => startTopic(t.id); $('#h2').onclick = home;
+    };
+  };
+  window.scrollTo(0,0);
+}
+
+home();
+})();
+</script>
+
+</body>
+</html>
